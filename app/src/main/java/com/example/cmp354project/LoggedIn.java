@@ -34,7 +34,7 @@ public class LoggedIn extends AppCompatActivity implements View.OnClickListener
 
 
     //UPDATEE EVERY DAY
-    String api_key = "RGAPI-b7298e94-8e67-4274-9d74-46206f11e3b2";
+    String api_key = "";
 
 
     @Override
