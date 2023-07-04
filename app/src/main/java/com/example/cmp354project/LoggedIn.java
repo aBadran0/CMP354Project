@@ -1,7 +1,5 @@
 package com.example.cmp354project;
 
-import static java.nio.charset.StandardCharsets.UTF_8;
-
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
@@ -12,33 +10,17 @@ import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
 
-import com.google.android.gms.common.util.IOUtils;
-import com.google.firebase.appcheck.interop.BuildConfig;
-import com.google.firebase.crashlytics.buildtools.reloc.org.apache.http.HttpHeaders;
-
-import java.io.*;
-import java.net.*;
-import java.nio.charset.StandardCharsets;
-import java.util.Scanner;
-import java.util.stream.Collectors;
-
 
 public class LoggedIn extends AppCompatActivity implements View.OnClickListener
 {
 
-    Button searchButton;
+    Button setAccount;
     EditText et_accountName;
     Spinner regionSelect;
 
-    TextView summonerLevel;
-
+    TextView tv_MainAccount;
     ArrayAdapter<CharSequence> adapter;
 
-    String jsonStr = "";
-
-
-    //UPDATEE EVERY DAY
-    String api_key = "";
 
 
     @Override
@@ -47,11 +29,11 @@ public class LoggedIn extends AppCompatActivity implements View.OnClickListener
         setContentView(R.layout.activity_logged_in);
 
         regionSelect = findViewById(R.id.regionSelect);
-        searchButton = findViewById(R.id.searchButton);
+        setAccount = findViewById(R.id.setAccount);
         et_accountName = findViewById(R.id.et_accountName);
-        summonerLevel = findViewById(R.id.summonerLevel);
+        tv_MainAccount = findViewById(R.id.tv_MainAccount);
 
-        searchButton.setOnClickListener(this);
+        setAccount.setOnClickListener(this);
 
         adapter = ArrayAdapter.createFromResource(this, R.array.Regions, android.R.layout.simple_spinner_item);
 
@@ -65,45 +47,11 @@ public class LoggedIn extends AppCompatActivity implements View.OnClickListener
     @Override
     public void onClick(View v) {
 
-        String userName = et_accountName.getText().toString();
-        final URL[] api_url = {null};
-
-
-        new Thread(new Runnable(){
-            @Override
-            public void run() {
-
-                try {
-                    api_url[0] = new URL("https://euw1.api.riotgames.com/lol/summoner/v4/summoners/by-name/" + userName + "?api_key=" + api_key);
-                    // HttpHeaders headers = new HttpHeaders();//headers.add("Accept","/");
-                    // HttpURLConnection huc = (HttpURLConnection) api_url[0].openConnection();
-                    //InputStream inputStream = huc.getInputStream();
-                    StringBuilder builder = new StringBuilder();
-                    try (BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(api_url[0].openStream(), UTF_8))) {
-                        String str;
-                        while ((str = bufferedReader.readLine()) != null) {
-                            builder.append(str);
-                            builder.append(System.getProperty("line.separator"));                        }
-                    }
-                    String jsonStr = builder.toString();
-                    summonerLevel.setText(jsonStr);
-
-                   // for(int i=1;i<=8;i++){
-                        //tempString = tempString + (huc.getOutputStream().);
-                    //}
-
-
-
-                }
-                catch (Exception ex) {
-                    ex.printStackTrace();
-                }
-            }
-        }).start();
-
-
-
-
+        String currentUser = tv_MainAccount.getText().toString();
+        if (currentUser.equals("Currently No Account Set"))
+        {
+            tv_MainAccount.setText("Your account is currently " + et_accountName.getText().toString() + "In region " + regionSelect.getSelectedItem().toString());
+        }
 
 
     }
