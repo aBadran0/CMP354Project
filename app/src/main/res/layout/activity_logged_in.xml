@@ -74,11 +74,11 @@
         android:orientation="horizontal">
 
         <Button
-            android:id="@+id/btn_addMatch"
-            android:layout_width="50dp"
+            android:id="@+id/btn_addMatchToHistory"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="Add match to match history" />
+            android:text="Add Match to History" />
     </LinearLayout>
 
     <LinearLayout
@@ -115,12 +115,6 @@
             android:layout_weight="1"
             android:text="Setup Account" />
 
-        <TextView
-            android:id="@+id/textView2"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="3"
-            android:text="Account that is currently set up:" />
     </LinearLayout>
 
 </LinearLayout>
