@@ -24,6 +24,31 @@
             android:gravity="center_horizontal"
             android:text="Add a match to your history"
             android:textSize="20sp" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:orientation="horizontal">
+
+        <TextView
+            android:id="@+id/textView9"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="Account name"
+            android:textSize="18sp" />
+
+        <EditText
+            android:id="@+id/et_accountNameSelected"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:ems="10"
+            android:inputType="text" />
     </LinearLayout>
 
     <LinearLayout
@@ -133,16 +158,28 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:ems="10"
-                android:inputType="text"
-                android:text="Name" />
+                android:inputType="text" />
 
-            <Button
-                android:id="@+id/btn_addItem"
-                android:layout_width="150dp"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_horizontal"
-                android:layout_marginTop="10dp"
-                android:text="Add item" />
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="horizontal">
+
+                <Button
+                    android:id="@+id/btn_addItem"
+                    android:layout_width="150dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_marginTop="10dp"
+                    android:text="Add item" />
+
+                <Button
+                    android:id="@+id/btn_removeItem"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Remove Item" />
+            </LinearLayout>
+
         </LinearLayout>
     </LinearLayout>
 
@@ -198,8 +235,9 @@
     </LinearLayout>
 
     <LinearLayout
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
         android:layout_weight="0"
         android:orientation="horizontal">
 
@@ -207,7 +245,7 @@
             android:id="@+id/btn_submitMatch"
             android:layout_width="200dp"
             android:layout_height="wrap_content"
-            android:text="Submit match" />
+            android:text="Add Match" />
     </LinearLayout>
 
 </LinearLayout>

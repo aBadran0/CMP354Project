@@ -17,9 +17,10 @@
         android:orientation="horizontal">
 
         <ImageView
-            android:id="@+id/imageView"
-            android:layout_width="match_parent"
+            android:id="@+id/imageView9"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_weight="1"
             app:srcCompat="@drawable/loggedinpicture" />
     </LinearLayout>
 
@@ -58,10 +59,10 @@
 
         <Button
             android:id="@+id/btn_searchSummoner"
-            android:layout_width="50dp"
+            android:layout_width="80dp"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="100dp"
-            android:layout_marginRight="100dp"
+            android:layout_marginLeft="80dp"
+            android:layout_marginRight="80dp"
             android:layout_weight="1"
             android:text="Search for a summoner to view his match history" />
 
@@ -69,16 +70,34 @@
 
     <LinearLayout
         android:layout_width="match_parent"
+        android:layout_height="30dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginRight="10dp"
+        android:orientation="horizontal">
+
+        <ImageView
+            android:id="@+id/imageView6"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:cropToPadding="false"
+            android:scaleType="center"
+            app:srcCompat="@drawable/divider" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="240dp"
         android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
         android:layout_marginTop="20dp"
         android:orientation="horizontal">
 
         <Button
-            android:id="@+id/btn_addMatch"
-            android:layout_width="50dp"
+            android:id="@+id/btn_addMatchToHistory"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="Add match to match history" />
+            android:text="Add Match to History" />
     </LinearLayout>
 
     <LinearLayout
@@ -108,19 +127,13 @@
             android:id="@+id/btn_setAccount"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="100dp"
+            android:layout_marginLeft="80dp"
             android:layout_marginTop="10dp"
-            android:layout_marginRight="100dp"
+            android:layout_marginRight="80dp"
             android:layout_marginBottom="20dp"
             android:layout_weight="1"
             android:text="Setup Account" />
 
-        <TextView
-            android:id="@+id/textView2"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="3"
-            android:text="Account that is currently set up:" />
     </LinearLayout>
 
 </LinearLayout>
