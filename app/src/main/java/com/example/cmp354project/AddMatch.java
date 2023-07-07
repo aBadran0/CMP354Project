@@ -25,7 +25,6 @@ public class AddMatch extends AppCompatActivity implements View.OnClickListener 
         et_ChampionName = et_ChampionName.findViewById(R.id.et_championName);
         et_nameOfItem = et_nameOfItem.findViewById(R.id.et_nameOfItem);
         et_damage = et_damage.findViewById(R.id.et_damage);
-        et_accountNameSelected = et_accountNameSelected.findViewById(R.id.et_accountNameSelected);
         btn_addItem.findViewById(R.id.btn_addItem);
         btn_removeItem.findViewById(R.id.btn_removeItem);
         btn_submitMatch.findViewById(R.id.btn_submitMatch);
