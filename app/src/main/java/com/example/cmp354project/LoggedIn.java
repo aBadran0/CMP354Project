@@ -30,7 +30,7 @@ public class LoggedIn extends AppCompatActivity implements View.OnClickListener
 
 
     //UPDATEE EVERY DAY -- not needed
-    String api_key = "";
+    String api_key = "RGAPI-5d6837b0-fcc8-4b7d-a4cb-a2a0d81394d2";
 
 
     @SuppressLint("MissingInflatedId")
