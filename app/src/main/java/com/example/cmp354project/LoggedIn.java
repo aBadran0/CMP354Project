@@ -1,9 +1,8 @@
 package com.example.cmp354project;
 
-import static java.nio.charset.StandardCharsets.UTF_8;
-
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
@@ -12,16 +11,6 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
-
-import com.google.android.gms.common.util.IOUtils;
-import com.google.firebase.appcheck.interop.BuildConfig;
-import com.google.firebase.crashlytics.buildtools.reloc.org.apache.http.HttpHeaders;
-
-import java.io.*;
-import java.net.*;
-import java.nio.charset.StandardCharsets;
-import java.util.Scanner;
-import java.util.stream.Collectors;
 
 
 public class LoggedIn extends AppCompatActivity implements View.OnClickListener
@@ -44,13 +33,14 @@ public class LoggedIn extends AppCompatActivity implements View.OnClickListener
     String api_key = "";
 
 
+    @SuppressLint("MissingInflatedId")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_logged_in);
 
         regionSelect = findViewById(R.id.regionSelect);
-        searchButton = findViewById(R.id.btn_searchAccount);
+        searchButton = findViewById(R.id.btn_searchSummoner);
         setupButton = findViewById(R.id.btn_setAccount);
 
         et_accountName = findViewById(R.id.et_accountName);
@@ -69,13 +59,16 @@ public class LoggedIn extends AppCompatActivity implements View.OnClickListener
 
     @Override
     public void onClick(View v) {
-
         if(v.getId() == R.id.btn_setAccount)
         {
 
-            Intent searchIntent = new Intent(this,AccountSetup.class);
+            Intent setupIntent = new Intent(this,AccountSetup.class);
+            startActivity(setupIntent);
+        }
+        else if(v.getId() == R.id.btn_searchSummoner)
+        {
+        //    Intent searchIntent = new Intent (this, );
 
-            startActivity(searchIntent);
         }
 
 
