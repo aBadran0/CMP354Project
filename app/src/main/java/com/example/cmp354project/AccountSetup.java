@@ -27,6 +27,7 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import java.util.HashMap;
 import java.util.Map;
 
+
 public class AccountSetup extends AppCompatActivity implements View.OnClickListener {
 
     private Button btn_saveacc;
@@ -38,6 +39,8 @@ public class AccountSetup extends AppCompatActivity implements View.OnClickListe
 
 
     FirebaseFirestore db;
+
+
 
     @SuppressLint("MissingInflatedId")
     @Override
@@ -57,14 +60,22 @@ public class AccountSetup extends AppCompatActivity implements View.OnClickListe
 
         db = FirebaseFirestore.getInstance();
 
+
+
+
     }
 
 
 
     @Override
     public void onClick(View v) {
+        Intent intent = getIntent();
+        String userEmail = intent.getStringExtra("username");
+
         if(v.getId() == R.id.btn_saveacc)
         {
+            db = FirebaseFirestore.getInstance();
+            String accountSetup = "Account Setup";
 
             String sumName = et_summName.getText().toString();
             DocumentReference docIdRef = db.collection("summoners").document(sumName);
@@ -77,6 +88,7 @@ public class AccountSetup extends AppCompatActivity implements View.OnClickListe
 
                             Toast.makeText(AccountSetup.this,"You already have an account with this name",Toast.LENGTH_SHORT).show();
                         } else {
+
                             String Rank = et_Rank.getText().toString();
 
                             //class member
@@ -86,11 +98,16 @@ public class AccountSetup extends AppCompatActivity implements View.OnClickListe
                             sum.put("Summoner Name",sumName);
                             sum.put("Region",spinnerRegion.getSelectedItem().toString());
                             sum.put("Rank",Rank );
-                            db.collection("summoners").document(sumName).set(sum);
+                            db.collection(userEmail).document("Summoner").set(sum);
 
 
 
                             Toast.makeText(AccountSetup.this,"Account has been made !",Toast.LENGTH_SHORT).show();
+                            Map<String,Object> accSetup = new HashMap<>();
+                            accSetup.put("Account Setup", "true");
+                            db.collection(userEmail).document(accountSetup).set(accSetup);
+
+
                             finish();
 
 

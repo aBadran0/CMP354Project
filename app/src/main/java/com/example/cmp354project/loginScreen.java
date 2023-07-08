@@ -20,6 +20,10 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.FirebaseFirestore;
+
+import java.util.HashMap;
+import java.util.Map;
 
 
 public class loginScreen extends AppCompatActivity implements View.OnClickListener
@@ -30,6 +34,9 @@ public class loginScreen extends AppCompatActivity implements View.OnClickListen
      EditText et_Password_Input;
      Button btn_login;
      Button btn_sign_up;
+
+    FirebaseFirestore db2;
+
 
 
 
@@ -48,6 +55,8 @@ public class loginScreen extends AppCompatActivity implements View.OnClickListen
 
         btn_login.setOnClickListener(this);
         btn_sign_up.setOnClickListener(this);
+        db2 = FirebaseFirestore.getInstance();
+
 
     }
 
@@ -88,6 +97,8 @@ public class loginScreen extends AppCompatActivity implements View.OnClickListen
             // validates them, and then signs a user in with the signInWithEmailAndPassword method.
             else if (v.getId()==R.id.btn_sign_up)
             {
+
+
                 Log.d("Hi", "AAA");
                 mAuth.createUserWithEmailAndPassword(et_Email_Input.getText().toString(), et_Password_Input.getText().toString())
                         .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
@@ -95,9 +106,12 @@ public class loginScreen extends AppCompatActivity implements View.OnClickListen
                             public void onComplete(@NonNull Task<AuthResult> task) {
                                 if (task.isSuccessful()) {
                                     // Sign in success, update UI with the signed-in user's information
+                                    Map<String,Object> user = new HashMap<>();
+                                    user.put("Account Setup", "false");
+                                    db2.collection(et_Email_Input.getText().toString()).document("Account Setup").set(user);
                                     Toast.makeText(getApplicationContext(), "Create User With Email : success\nPlease login",
                                             Toast.LENGTH_SHORT).show();
-                                    FirebaseUser user = mAuth.getCurrentUser();
+
 
                                 } else {
                                     // If sign in fails, display a message to the user.
