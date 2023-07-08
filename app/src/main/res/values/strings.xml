@@ -10,5 +10,17 @@
         <item>Europe West</item>
         <item>Europe North / East</item>
     </string-array>
+    <string-array name="Roles">
+        <item>Top</item>
+        <item>Jungle</item>
+        <item>Mid</item>
+        <item>Bot</item>
+        <item>Support</item>
+    </string-array>
+    <string-array name="Result">
+        <item>Win</item>
+        <item>Loss</item>
+    </string-array>
+
 
 </resources>

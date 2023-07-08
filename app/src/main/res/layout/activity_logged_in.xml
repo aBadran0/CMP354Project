@@ -64,7 +64,7 @@
             android:layout_marginLeft="80dp"
             android:layout_marginRight="80dp"
             android:layout_weight="1"
-            android:text="Search for a summoner to view his match history" />
+            android:text="Search Summoner" />
 
     </LinearLayout>
 

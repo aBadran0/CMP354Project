@@ -71,6 +71,10 @@ public class LoggedIn extends AppCompatActivity implements View.OnClickListener
             startActivity(addMatch);
 
         }
+        else if(v.getId() == R.id.btn_searchSummoner)
+        {
+
+        }
 
 
     }
