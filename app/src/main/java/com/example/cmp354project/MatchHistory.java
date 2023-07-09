@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.annotation.SuppressLint;
 import android.app.Dialog;
+import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
@@ -34,7 +35,7 @@ import java.util.Map;
 public class MatchHistory extends AppCompatActivity implements AdapterView.OnItemClickListener {
 
 
-    //EditText et_champlist;
+    EditText et_champlist;
     Dialog champDialog;
 
     TextView tv_searchChamps;
@@ -51,7 +52,7 @@ public class MatchHistory extends AppCompatActivity implements AdapterView.OnIte
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_match_history);
-        // et_champlist = findViewById(R.id.et_Champlist);
+      //  et_champlist = findViewById(R.id.et_Champlist);
         tv_searchChamps = findViewById(R.id.tv_searchChamp);
 
 
@@ -154,7 +155,10 @@ public class MatchHistory extends AppCompatActivity implements AdapterView.OnIte
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
+        Intent intent = new Intent(this, MatchView.class);
 
+
+        this.startActivity(intent);
     }
 }
 
