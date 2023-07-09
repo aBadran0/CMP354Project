@@ -214,6 +214,7 @@ public class AddMatch extends AppCompatActivity implements View.OnClickListener 
            }
 
             Map<String,Object> match = new HashMap<>();
+            Map<String,Object> numberOfMatches = new HashMap<>();
             match.put("Champion",tv_selectChamp.getText().toString());
             match.put("Creep Score", et_cs.getText().toString());
             match.put("Result",spinner_winOrLoss.getSelectedItem().toString() );
@@ -222,6 +223,8 @@ public class AddMatch extends AppCompatActivity implements View.OnClickListener 
             match.put("Damage",et_damage.getText().toString());
             String matchNumber = "Match " + singleton.getInstance().getIntValue();
             db.collection(userEmail).document(matchNumber).set(match);
+            numberOfMatches.put("Number of matches",singleton.getInstance().getIntValue());
+            db.collection(userEmail).document("Account Setup").update(numberOfMatches);
             singleton.getInstance().setIntValue(singleton.getInstance().getIntValue()+1);
 
 
