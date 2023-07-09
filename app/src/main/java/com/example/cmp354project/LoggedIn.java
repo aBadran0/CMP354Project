@@ -1,6 +1,7 @@
 package com.example.cmp354project;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.annotation.SuppressLint;
@@ -11,6 +12,8 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -25,8 +28,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 
-public class LoggedIn extends AppCompatActivity implements View.OnClickListener
-{
+public class LoggedIn extends AppCompatActivity implements View.OnClickListener {
 
     Button searchButton;
     EditText et_accountName;
@@ -42,13 +44,16 @@ public class LoggedIn extends AppCompatActivity implements View.OnClickListener
     FirebaseFirestore db;
 
 
-
-
     @SuppressLint("MissingInflatedId")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_logged_in);
+
+        ActionBar actionBar = getSupportActionBar();
+        actionBar.setTitle("League.gg");
+        actionBar.setDisplayUseLogoEnabled(true);
+        actionBar.setDisplayShowHomeEnabled(true);
 
 
         regionSelect = findViewById(R.id.regionSelect);
@@ -78,18 +83,15 @@ public class LoggedIn extends AppCompatActivity implements View.OnClickListener
                 if (task.isSuccessful()) {
                     DocumentSnapshot document = task.getResult();
                     if (document.exists()) {
-                        if(document.get("Number of matches") != null)
-                        {
-                            Long L = (Long)document.get("Number of matches");
-                            singleton.getInstance().setIntValue(L.intValue()+1);
+                        if (document.get("Number of matches") != null) {
+                            Long L = (Long) document.get("Number of matches");
+                            singleton.getInstance().setIntValue(L.intValue() + 1);
 
-                        }
-                        else {
+                        } else {
                             singleton.getInstance().setIntValue(1);
                         }
 
-                        if(document.getString("Account Setup").equals("true"))
-                        {
+                        if (document.getString("Account Setup").equals("true")) {
                             setupButton.setVisibility(View.INVISIBLE);
 
                         }
@@ -102,9 +104,12 @@ public class LoggedIn extends AppCompatActivity implements View.OnClickListener
         });
 
 
+    }
 
-
-
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu, menu);
+        return super.onCreateOptionsMenu(menu);
     }
 
     @Override
@@ -121,8 +126,7 @@ public class LoggedIn extends AppCompatActivity implements View.OnClickListener
                 if (task.isSuccessful()) {
                     DocumentSnapshot document = task.getResult();
                     if (document.exists()) {
-                        if(document.getString("Account Setup").equals("true"))
-                        {
+                        if (document.getString("Account Setup").equals("true")) {
                             setupButton.setVisibility(View.INVISIBLE);
                         }
 
@@ -132,7 +136,6 @@ public class LoggedIn extends AppCompatActivity implements View.OnClickListener
                 }
             }
         });
-
 
 
     }
@@ -147,24 +150,31 @@ public class LoggedIn extends AppCompatActivity implements View.OnClickListener
             setupIntent.putExtra("username", userEmail);
             startActivity(setupIntent);
 
-        }
-        else if (v.getId() == R.id.btn_addMatchToHistory)
-        {
+        } else if (v.getId() == R.id.btn_addMatchToHistory) {
             Intent addMatch = new Intent(this, AddMatch.class);
             String userEmail = getIntent().getStringExtra("username");
             addMatch.putExtra("username", userEmail);
 
             startActivity(addMatch);
 
-        }
-        else if(v.getId() == R.id.btn_searchSummoner)
-        {
-            Intent viewHistory = new Intent(this, MatchHistory.class);
-            startActivity(viewHistory);
+        } else if (v.getId() == R.id.btn_searchSummoner) {
+
         }
 
 
     }
 
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
 
+        if (item.getItemId() == R.id.menu_about) {
+
+
+        } else if (item.getItemId() == R.id.menu_matchHistory)
+        {
+            Intent viewHistory = new Intent(this, MatchHistory.class);
+            startActivity(viewHistory);
+        }
+        return super.onOptionsItemSelected(item);
+    }
 }

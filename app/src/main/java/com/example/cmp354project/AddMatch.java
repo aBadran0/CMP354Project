@@ -18,6 +18,7 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -51,6 +52,8 @@ public class AddMatch extends AppCompatActivity implements View.OnClickListener 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.adding_match_to_history);
+
+
 
         et_cs = findViewById(R.id.et_cs);
        // et_ChampionName = findViewById(R.id.et_championName);
