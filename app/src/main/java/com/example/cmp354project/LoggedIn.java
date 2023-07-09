@@ -69,9 +69,9 @@ public class LoggedIn extends AppCompatActivity implements View.OnClickListener
         regionSelect.setAdapter(adapter);
         db = FirebaseFirestore.getInstance();
         String userEmail = getIntent().getStringExtra("username");
-
-
         DocumentReference docRef = db.collection(userEmail).document("Account Setup");
+
+
         docRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
             @Override
             public void onComplete(@NonNull Task<DocumentSnapshot> task) {
@@ -88,68 +88,18 @@ public class LoggedIn extends AppCompatActivity implements View.OnClickListener
                             singleton.getInstance().setIntValue(1);
                         }
 
+                        if(document.getString("Account Setup").equals("true"))
+                        {
+                            setupButton.setVisibility(View.INVISIBLE);
+
+                        }
+
                     }
                 } else {
 
                 }
             }
         });
-
-
-
-        db.collection(userEmail)
-                .whereEqualTo("Account Setup", "false")
-                .get()
-                .addOnCompleteListener(task -> {
-                    if (task.isSuccessful()) {
-                        for (QueryDocumentSnapshot document : task.getResult()) {
-                            // Retrieve the value from the document
-                            String value = document.getString("Account Setup");
-                            if(value.equals("false"))
-                            {
-
-                            }
-                            else
-                            {
-                                setupButton.setVisibility(View.INVISIBLE);
-
-                            }
-
-                        }
-                    } else {
-                        // Handle any errors
-                        System.out.println("Error getting documents: " + task.getException());
-                    }
-                });
-        db.collection(userEmail)
-                .whereEqualTo("Account Setup", "true") // Assuming you have a field called "userId" in your documents
-                .get()
-                .addOnCompleteListener(task -> {
-                    if (task.isSuccessful()) {
-                        for (QueryDocumentSnapshot document : task.getResult()) {
-                            // Retrieve the value from the document
-                            String value = document.getString("Account Setup");
-                            if(value.equals("false"))
-                            {
-
-                            }
-                            else
-                            {
-                                setupButton.setVisibility(View.INVISIBLE);
-
-                            }
-
-                        }
-                    } else {
-                        // Handle any errors
-                        System.out.println("Error getting documents: " + task.getException());
-                    }
-                });
-
-
-
-
-
 
 
 
@@ -163,52 +113,25 @@ public class LoggedIn extends AppCompatActivity implements View.OnClickListener
 
         db = FirebaseFirestore.getInstance();
         String userEmail = getIntent().getStringExtra("username");
-        db.collection(userEmail)
-                .whereEqualTo("Account Setup", "true") // Assuming you have a field called "userId" in your documents
-                .get()
-                .addOnCompleteListener(task -> {
-                    if (task.isSuccessful()) {
-                        for (QueryDocumentSnapshot document : task.getResult()) {
-                            // Retrieve the value from the document
-                            String value = document.getString("Account Setup");
-                            if(value.equals("false"))
-                            {
+        DocumentReference docRef = db.collection(userEmail).document("Account Setup");
 
-                            }
-                            else
-                            {
-                                setupButton.setVisibility(View.INVISIBLE);
-
-                            }
+        docRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                if (task.isSuccessful()) {
+                    DocumentSnapshot document = task.getResult();
+                    if (document.exists()) {
+                        if(document.getString("Account Setup").equals("true"))
+                        {
+                            setupButton.setVisibility(View.INVISIBLE);
                         }
-                    } else {
-                        // Handle any errors
-                        System.out.println("Error getting documents: " + task.getException());
-                    }
-                });
-        db.collection(userEmail)
-                .whereEqualTo("Account Setup", "false") // Assuming you have a field called "userId" in your documents
-                .get()
-                .addOnCompleteListener(task -> {
-                    if (task.isSuccessful()) {
-                        for (QueryDocumentSnapshot document : task.getResult()) {
-                            // Retrieve the value from the document
-                            String value = document.getString("Account Setup");
-                            if(value.equals("false"))
-                            {
 
-                            }
-                            else
-                            {
-                                setupButton.setVisibility(View.INVISIBLE);
-
-                            }
-                        }
-                    } else {
-                        // Handle any errors
-                        System.out.println("Error getting documents: " + task.getException());
                     }
-                });
+                } else {
+
+                }
+            }
+        });
 
 
 
