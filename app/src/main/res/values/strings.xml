@@ -21,6 +21,168 @@
         <item>Win</item>
         <item>Loss</item>
     </string-array>
+    <string-array name="Champions">
+        <item>Aatrox</item>
+        <item>Ahri</item>
+        <item>Akali</item>
+        <item>Akshan</item>
+        <item>Alistar</item>
+        <item>Amumu</item>
+        <item>Anivia</item>
+        <item>Annie</item>
+        <item>Aphelios</item>
+        <item>Ashe</item>
+        <item>Aurelion Sol</item>
+        <item>Azir</item>
+        <item>Bard</item>
+        <item>BelVeth</item>
+        <item>Blitzcrank</item>
+        <item>Brand</item>
+        <item>Braum</item>
+        <item>Caitlyn</item>
+        <item>Camille</item>
+        <item>Cassiopeia</item>
+        <item>Chogath</item>
+        <item>Corki</item>
+        <item>Darius</item>
+        <item>Diana</item>
+        <item>Dr.Mundo</item>
+        <item>Draven</item>
+        <item>Ekko</item>
+        <item>Elise</item>
+        <item>Evelynn</item>
+        <item>Ezreal</item>
+        <item>Fiddlestickes</item>
+        <item>Fiora</item>
+        <item>Fizz</item>
+        <item>Galio</item>
+        <item>Gangplank</item>
+        <item>Garen</item>
+        <item>Gnar</item>
+        <item>Gragas</item>
+        <item>Gwen</item>
+        <item>Hecarim</item>
+        <item>Heimerdinger</item>
+        <item>Illaoi</item>
+        <item>Irelia</item>
+        <item>Ivern</item>
+        <item>Janna</item>
+        <item>Jarvan IV</item>
+        <item>Jax</item>
+        <item>Jhin</item>
+        <item>Jinx</item>
+        <item>Ksante</item>
+        <item>Kaisa</item>
+        <item>Kalista</item>
+        <item>Karma</item>
+        <item>Karthus</item>
+        <item>Kassadin</item>
+        <item>Katarina</item>
+        <item>Kayle</item>
+        <item>Kayn</item>
+        <item>Kennen</item>
+        <item>Khazix</item>
+        <item>Kindred</item>
+        <item>Kled</item>
+        <item>Kogmaw</item>
+        <item>Leblanc</item>
+        <item>Lee Sin</item>
+        <item>Leona</item>
+        <item>Lillia</item>
+        <item>Lissandra</item>
+        <item>Lucian</item>
+        <item>Lulu</item>
+        <item>Lux</item>
+        <item>Malphite</item>
+        <item>Malzahar</item>
+        <item>Maokai</item>
+        <item>Master Yi</item>
+        <item>Milio</item>
+        <item>Miss Fortune</item>
+        <item>Mordekaiser</item>
+        <item>Morgana</item>
+        <item>Nami</item>
+        <item>Nasus</item>
+        <item>Nautilus</item>
+        <item>Neeko</item>
+        <item>Nidalee</item>
+        <item>Nilah</item>
+        <item>Nocturne</item>
+        <item>Nunu &amp; Willump</item>
+        <item>Olaf</item>
+        <item>Orianna</item>
+        <item>Ornn</item>
+        <item>Pantheon</item>
+        <item>Poppy</item>
+        <item>Pyke</item>
+        <item>Qiyana</item>
+        <item>Quinn</item>
+        <item>Rakan</item>
+        <item>Rammus</item>
+        <item>Reksai</item>
+        <item>Rell</item>
+        <item>Renata Glasc</item>
+        <item>Renekton</item>
+        <item>Rengar</item>
+        <item>Riven</item>
+        <item>Rumble</item>
+        <item>Ryze</item>
+        <item>Samira</item>
+        <item>Sejuani</item>
+        <item>Senna</item>
+        <item>Sett</item>
+        <item>Shaco</item>
+        <item>Shen</item>
+        <item>Shyvana</item>
+        <item>Singed</item>
+        <item>Sion</item>
+        <item>Sivir</item>
+        <item>Skarner</item>
+        <item>Sona</item>
+        <item>Soraka</item>
+        <item>Swain</item>
+        <item>Sylas</item>
+        <item>Syndra</item>
+        <item>Tahm Kench</item>
+        <item>Taliyah</item>
+        <item>Talon</item>
+        <item>Taric</item>
+        <item>Teemo</item>
+        <item>Thresh</item>
+        <item>Tristana</item>
+        <item>Trundle</item>
+        <item>Tryndamere</item>
+        <item>Twisted Fate</item>
+        <item>Twitch</item>
+        <item>Udyr</item>
+        <item>Urgot</item>
+        <item>Varus</item>
+        <item>Vayne</item>
+        <item>Veigar</item>
+        <item>VelKoz</item>
+        <item>Vex</item>
+        <item>Vi</item>
+        <item>Viego</item>
+        <item>Viktor</item>
+        <item>Vladimir</item>
+        <item>Volibear</item>
+        <item>Warwick</item>
+        <item>Wukong</item>
+        <item>Xayah</item>
+        <item>Xerath</item>
+        <item>Xin Zhao</item>
+        <item>Yasuo</item>
+        <item>Yone</item>
+        <item>Yorick</item>
+        <item>Yuumi</item>
+        <item>Zac</item>
+        <item>Zed</item>
+        <item>Zeri</item>
+        <item>Ziggs</item>
+        <item>Zilean</item>
+        <item>Zoe</item>
+        <item>Zyra</item>
+    </string-array>
 
 
 </resources>

@@ -208,7 +208,8 @@ public class LoggedIn extends AppCompatActivity implements View.OnClickListener
         }
         else if(v.getId() == R.id.btn_searchSummoner)
         {
-
+            Intent viewHistory = new Intent(this, MatchHistory.class);
+            startActivity(viewHistory);
         }
 
 

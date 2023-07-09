@@ -68,19 +68,11 @@ public class AddMatch extends AppCompatActivity implements View.OnClickListener 
 
 
 
-
-
-
     }
 
     @Override
     public void onClick(View v) {
        FirebaseFirestore db = FirebaseFirestore.getInstance();
-
-
-
-
-
         if(v.getId()==R.id.btn_addItem)
         {
             if(index <= 6)
@@ -91,9 +83,7 @@ public class AddMatch extends AppCompatActivity implements View.OnClickListener 
             }
             else {
                 Toast.makeText(this, "You cannot add more than 6 items",Toast.LENGTH_SHORT).show();
-
             }
-
         }
         else if(v.getId()== R.id.btn_removeItem)
         {
@@ -101,17 +91,14 @@ public class AddMatch extends AppCompatActivity implements View.OnClickListener 
             {
                 items.remove(index);
                 index--;
-
             }
             else {
                 Toast.makeText(this, "You cannot remove items from an empty inventory",Toast.LENGTH_SHORT).show();
-
             }
 
         }
         else if(v.getId() == R.id.btn_submitMatch)
         {
-
             for(String s : items)
             {
                 itemsFinalString += s + ",";
