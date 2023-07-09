@@ -183,6 +183,110 @@
         <item>Zoe</item>
         <item>Zyra</item>
     </string-array>
+<string-array name="Items">
+    <item>Doran\'s Blade</item>
+    <item>Doran\'s Ring</item>
+    <item>Doran\'s Shield</item>
+    <item>Health Potion</item>
+    <item>Control Ward</item>
+    <item>Farsight Alteration (Trinket)</item>
+    <item>Boots of Speed</item>
+    <item>Berserker\'s Greaves</item>
+    <item>Ionian Boots of Lucidity</item>
+    <item>Mobility Boots</item>
+    <item>Mercury\'s Treads</item>
+    <item>Plated Steelcaps</item>
+    <item>Essence Reaver</item>
+    <item>Infinity Edge</item>
+    <item>Phantom Dancer</item>
+    <item>Rapid Firecannon</item>
+    <item>Stormrazor</item>
+    <item>Bloodthirster</item>
+    <item>Lord Dominik\'s Regards</item>
+    <item>Mortal Reminder</item>
+    <item>Guardian Angel</item>
+    <item>Death\'s Dance</item>
+    <item>Serrated Dirk</item>
+    <item>Youmuu\'s Ghostblade</item>
+    <item>Duskblade of Draktharr</item>
+    <item>Edge of Night</item>
+    <item>Sanguine Blade</item>
+    <item>Black Cleaver</item>
+    <item>Divine Sunderer</item>
+    <item>Stridebreaker</item>
+    <item>Goredrinker</item>
+    <item>Eclipse</item>
+    <item>Trinity Force</item>
+    <item>Sterak\'s Gage</item>
+    <item>Titanic Hydra</item>
+    <item>Ravenous Hydra</item>
+    <item>Blade of the Ruined King</item>
+    <item>Guinsoo\'s Rageblade</item>
+    <item>Wit\'s End</item>
+    <item>Runaan\'s Hurricane</item>
+    <item>Nashor\'s Tooth</item>
+    <item>Hextech Rocketbelt</item>
+    <item>Luden\'s Echo</item>
+    <item>Everfrost</item>
+    <item>Liandry\'s Anguish</item>
+    <item>Lich Bane</item>
+    <item>Imperial Mandate</item>
+    <item>Moonstone Renewer</item>
+    <item>Shurelya\'s Battlesong</item>
+    <item>Redemption</item>
+    <item>Ardent Censer</item>
+    <item>Mikael\'s Blessing</item>
+    <item>Staff of Flowing Water</item>
+    <item>Zeke\'s Convergence</item>
+    <item>Chemtech Putrifier</item>
+    <item>Imperial Mandate</item>
+    <item>Rylai\'s Crystal Scepter</item>
+    <item>Everfrost</item>
+    <item>Imperial Mandate</item>
+    <item>Ardent Censer</item>
+    <item>Spirit Visage</item>
+    <item>Chempunk Chainsword</item>
+    <item>Force of Nature</item>
+    <item>Thornmail</item>
+    <item>Sunfire Aegis</item>
+    <item>Dead Man\'s Plate</item>
+    <item>Sterak\'s Gage</item>
+    <item>Frostfire Gauntlet</item>
+    <item>Turbo Chemtank</item>
+    <item>Guardian Angel</item>
+    <item>Blade of the Ruined King</item>
+    <item>Immortal Shieldbow</item>
+    <item>Kraken Slayer</item>
+    <item>Galeforce</item>
+    <item>Lord Dominik\'s Regards</item>
+    <item>Mortal Reminder</item>
+    <item>Phantom Dancer</item>
+    <item>Runaan\'s Hurricane</item>
+    <item>Infinity Edge</item>
+    <item>Rapid Firecannon</item>
+    <item>Stormrazor</item>
+    <item>Navori Quickblade</item>
+    <item>Essence Reaver</item>
+    <item>Manamune</item>
+    <item>Serylda\'s Grudge</item>
+    <item>The Collector</item>
+    <item>Muramana</item>
+    <item>Guardian\'s Blade</item>
+    <item>Seeker\'s Armguard</item>
+    <item>Maw of Malmortius</item>
+    <item>Serpent\'s Fang</item>
+    <item>Chempunk Chainsword</item>
+    <item>Serylda\'s Grudge</item>
+    <item>Umbral Glaive</item>
+    <item>Prowler\'s Claw</item>
+    <item>Eclipse</item>
+    <item>Serpent\'s Fang</item>
+    <item>Sanguine Blade</item>
+    <item>Edge of Night</item>
+    <item>Duskblade of Draktharr</item>
+    <item>Youmuu\'s Ghostblade</item>
+    <item>Collector</item>
 
+</string-array>
 
 </resources>

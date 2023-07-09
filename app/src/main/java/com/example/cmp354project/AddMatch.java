@@ -32,14 +32,14 @@ public class AddMatch extends AppCompatActivity implements View.OnClickListener 
     private Button btn_addItem, btn_removeItem, btn_submitMatch;
     Spinner spinner_role, spinner_winOrLoss;
 
-    Dialog champSelectDialog;
+    Dialog champSelectDialog,itemSelectDialog;
 
-    ArrayAdapter<CharSequence> roleadapter,resultadapter, champSelectAdapter;
+    ArrayAdapter<CharSequence> roleadapter,resultadapter, champSelectAdapter,itemSelecAdapter;
     FirebaseFirestore db;
     int index = 1;
     String itemsFinalString = "";
     ArrayList<String> items = new ArrayList<String>();
-    TextView tv_selectChamp;
+    TextView tv_selectChamp,tv_selectItem;
 
     String userEmail = "";
 
@@ -54,9 +54,10 @@ public class AddMatch extends AppCompatActivity implements View.OnClickListener 
 
         et_cs = findViewById(R.id.et_cs);
        // et_ChampionName = findViewById(R.id.et_championName);
-        et_nameOfItem = findViewById(R.id.et_nameOfItem);
+       // et_nameOfItem = findViewById(R.id.et_nameOfItem);
         et_damage = findViewById(R.id.et_damage);
         tv_selectChamp = findViewById(R.id.tv_enterChamp);
+        tv_selectItem=findViewById(R.id.tv_ItemSelect);
 
         btn_addItem = findViewById(R.id.btn_addItem);
         btn_removeItem = findViewById(R.id.btn_removeItem);
@@ -84,6 +85,55 @@ public class AddMatch extends AppCompatActivity implements View.OnClickListener 
 
 
     }
+
+    public void onClick_item(View view)
+    {
+        itemSelectDialog = new Dialog(AddMatch.this);
+        // set custom dialog
+        itemSelectDialog.setContentView(R.layout.item_spinner);
+        // set custom height and width
+        itemSelectDialog.getWindow().setLayout(650, 800);
+        // set transparent background
+        itemSelectDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        //show dialog
+        itemSelectDialog.show();
+
+        EditText et_searchItem = itemSelectDialog.findViewById(R.id.et_searchItem);
+        ListView lv_viewItem = itemSelectDialog.findViewById(R.id.lv_viewItem);
+
+        itemSelecAdapter =ArrayAdapter.createFromResource(AddMatch.this, R.array.Items, android.R.layout.simple_spinner_item);
+        itemSelecAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        // set adapter
+        lv_viewItem.setAdapter(itemSelecAdapter);
+        et_searchItem.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                itemSelecAdapter.getFilter().filter(s);
+            }
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+        });
+
+        lv_viewItem.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                // when item selected from list
+                // set selected item on textView
+                tv_selectItem.setText(itemSelecAdapter.getItem(position));
+
+                // Dismiss dialog
+                itemSelectDialog.dismiss();
+            }
+        });
+    }
+
+
 
     @Override
     public void onClick(View v) {
@@ -121,28 +171,23 @@ public class AddMatch extends AppCompatActivity implements View.OnClickListener 
 
                }
            });
-
            lv_viewChamp.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                @Override
                public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                    // when item selected from list
                    // set selected item on textView
                    tv_selectChamp.setText(champSelectAdapter.getItem(position));
-
                    // Dismiss dialog
                    champSelectDialog.dismiss();
                }
            });
-
-
-
        }
         if(v.getId()==R.id.btn_addItem)
         {
             if(index <= 6)
             {
-                items.add(et_nameOfItem.getText().toString());
-                et_nameOfItem.setText("");
+                items.add(tv_selectItem.getText().toString());
+                tv_selectItem.setText("");
                 index++;
             }
             else {
