@@ -6,6 +6,8 @@ import android.app.Notification;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
+import android.app.TaskStackBuilder;
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
@@ -251,7 +253,8 @@ public class AddMatch extends AppCompatActivity implements View.OnClickListener 
 
     public void createNotification()
     {
-        Intent notificationIntent = new Intent(this, AddMatch.class)
+
+ Intent notificationIntent = new Intent(this, AddMatch.class)
                 .addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
 
 
@@ -286,6 +289,7 @@ public class AddMatch extends AppCompatActivity implements View.OnClickListener 
 
         final int NOTIFICATION_ID = 1;
         manager.notify(NOTIFICATION_ID, notification);
+
 
 
 
