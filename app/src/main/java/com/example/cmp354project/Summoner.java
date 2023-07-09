@@ -6,6 +6,8 @@ public class Summoner {
     private String Rank;
     private String Region;
 
+    private int numberOfMatches;
+
 
 
     public String toString() {
@@ -13,6 +15,7 @@ public class Summoner {
               "Summoner Name='"+ summonerName+'\''+
               ", Region = '"+ Region+'\''+
               ", Rank = '"+Rank+"}";
+
     };
 
     public Summoner() {}

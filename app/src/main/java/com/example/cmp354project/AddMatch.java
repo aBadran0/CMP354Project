@@ -215,6 +215,8 @@ public class AddMatch extends AppCompatActivity implements View.OnClickListener 
 
             Map<String,Object> match = new HashMap<>();
             Map<String,Object> numberOfMatches = new HashMap<>();
+
+
             match.put("Champion",tv_selectChamp.getText().toString());
             match.put("Creep Score", et_cs.getText().toString());
             match.put("Result",spinner_winOrLoss.getSelectedItem().toString() );

@@ -1,5 +1,6 @@
 package com.example.cmp354project;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.annotation.SuppressLint;
@@ -13,7 +14,10 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 
@@ -36,9 +40,6 @@ public class LoggedIn extends AppCompatActivity implements View.OnClickListener
 
     ArrayAdapter<CharSequence> adapter;
     FirebaseFirestore db;
-
-
-
 
 
 
@@ -68,10 +69,36 @@ public class LoggedIn extends AppCompatActivity implements View.OnClickListener
         regionSelect.setAdapter(adapter);
         db = FirebaseFirestore.getInstance();
         String userEmail = getIntent().getStringExtra("username");
-        singleton.getInstance().setIntValue(1);
+
+
+        DocumentReference docRef = db.collection(userEmail).document("Account Setup");
+        docRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                if (task.isSuccessful()) {
+                    DocumentSnapshot document = task.getResult();
+                    if (document.exists()) {
+                        if(document.get("Number of matches") != null)
+                        {
+                            Long L = (Long)document.get("Number of matches");
+                            singleton.getInstance().setIntValue(L.intValue()+1);
+
+                        }
+                        else {
+                            singleton.getInstance().setIntValue(1);
+                        }
+
+                    }
+                } else {
+
+                }
+            }
+        });
+
+
 
         db.collection(userEmail)
-                .whereEqualTo("Account Setup", "false") // Assuming you have a field called "userId" in your documents
+                .whereEqualTo("Account Setup", "false")
                 .get()
                 .addOnCompleteListener(task -> {
                     if (task.isSuccessful()) {
