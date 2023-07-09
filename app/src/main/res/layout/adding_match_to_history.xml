@@ -51,6 +51,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="3"
             android:hint="Enter Champion"
+            android:background="@android:drawable/editbox_background"
             android:textSize="18sp" />
 
     </LinearLayout>
@@ -135,8 +136,10 @@
                 android:id="@+id/tv_ItemSelect"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
                 android:layout_marginTop="10dp"
                 android:layout_marginBottom="10dp"
+                android:background="@android:drawable/editbox_background"
                 android:ems="10"
                 android:hint="Select Item"
                 android:onClick="onClick_item"

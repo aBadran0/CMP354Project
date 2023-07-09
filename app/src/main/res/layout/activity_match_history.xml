@@ -36,6 +36,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="Search by Champion"
+            android:background="@android:drawable/editbox_background"
             android:paddingLeft="5dp"
             android:paddingTop="5dp"
             android:paddingBottom="5dp" />

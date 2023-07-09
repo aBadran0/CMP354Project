@@ -16,7 +16,7 @@ import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
 
-public class MatchHistory extends AppCompatActivity  {
+public class MatchHistory extends AppCompatActivity implements AdapterView.OnItemClickListener {
 
 
     //EditText et_champlist;
@@ -81,13 +81,26 @@ public class MatchHistory extends AppCompatActivity  {
                         // when item selected from list
                         // set selected item on textView
                         tv_searchChamps.setText(champListAdapter.getItem(position));
-
                         // Dismiss dialog
                         champDialog.dismiss();
+
+
+
                     }
                 });
             }
         });
+
+    }
+
+/*    public void updateDisplay()
+    {
+    }*/
+
+
+    @Override
+    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+
 
     }
 }
