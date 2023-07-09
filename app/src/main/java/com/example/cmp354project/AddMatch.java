@@ -1,12 +1,21 @@
 package com.example.cmp354project;
 
+import android.annotation.SuppressLint;
+import android.app.Dialog;
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ListView;
 import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -23,26 +32,31 @@ public class AddMatch extends AppCompatActivity implements View.OnClickListener 
     private Button btn_addItem, btn_removeItem, btn_submitMatch;
     Spinner spinner_role, spinner_winOrLoss;
 
-    ArrayAdapter<CharSequence> roleadapter,resultadapter;
+    Dialog champSelectDialog;
+
+    ArrayAdapter<CharSequence> roleadapter,resultadapter, champSelectAdapter;
     FirebaseFirestore db;
     int index = 1;
     String itemsFinalString = "";
     ArrayList<String> items = new ArrayList<String>();
+    TextView tv_selectChamp;
 
     String userEmail = "";
 
 
 
 
+    @SuppressLint("MissingInflatedId")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.adding_match_to_history);
 
         et_cs = findViewById(R.id.et_cs);
-        et_ChampionName = findViewById(R.id.et_championName);
+       // et_ChampionName = findViewById(R.id.et_championName);
         et_nameOfItem = findViewById(R.id.et_nameOfItem);
         et_damage = findViewById(R.id.et_damage);
+        tv_selectChamp = findViewById(R.id.tv_enterChamp);
 
         btn_addItem = findViewById(R.id.btn_addItem);
         btn_removeItem = findViewById(R.id.btn_removeItem);
@@ -51,6 +65,7 @@ public class AddMatch extends AppCompatActivity implements View.OnClickListener 
         spinner_role = findViewById(R.id.spinner_role);
         spinner_winOrLoss = findViewById(R.id.spinner_winOrLoss);
 
+        tv_selectChamp.setOnClickListener(this);
         btn_submitMatch.setOnClickListener(this);
         btn_addItem.setOnClickListener(this);
         btn_removeItem.setOnClickListener(this);
@@ -73,6 +88,55 @@ public class AddMatch extends AppCompatActivity implements View.OnClickListener 
     @Override
     public void onClick(View v) {
        FirebaseFirestore db = FirebaseFirestore.getInstance();
+       if(v.getId() == R.id.tv_enterChamp)
+       {
+           champSelectDialog = new Dialog(AddMatch.this);
+           // set custom dialog
+           champSelectDialog.setContentView(R.layout.searchable_spinner);
+           // set custom height and width
+           champSelectDialog.getWindow().setLayout(650, 800);
+           // set transparent background
+           champSelectDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+           //show dialog
+           champSelectDialog.show();
+           // Initialize and assign variable
+           EditText et_searchChamp = champSelectDialog.findViewById(R.id.et_searchChamp);
+           ListView lv_viewChamp = champSelectDialog.findViewById(R.id.lv_ViewChamp);
+           // Initialize array adapter
+           champSelectAdapter =ArrayAdapter.createFromResource(AddMatch.this, R.array.Champions, android.R.layout.simple_spinner_item);
+           champSelectAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+           // set adapter
+           lv_viewChamp.setAdapter(champSelectAdapter);
+           et_searchChamp.addTextChangedListener(new TextWatcher() {
+               @Override
+               public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+               }
+               @Override
+               public void onTextChanged(CharSequence s, int start, int before, int count) {
+                   champSelectAdapter.getFilter().filter(s);
+               }
+               @Override
+               public void afterTextChanged(Editable s) {
+
+               }
+           });
+
+           lv_viewChamp.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+               @Override
+               public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                   // when item selected from list
+                   // set selected item on textView
+                   tv_selectChamp.setText(champSelectAdapter.getItem(position));
+
+                   // Dismiss dialog
+                   champSelectDialog.dismiss();
+               }
+           });
+
+
+
+       }
         if(v.getId()==R.id.btn_addItem)
         {
             if(index <= 6)
@@ -105,7 +169,7 @@ public class AddMatch extends AppCompatActivity implements View.OnClickListener 
            }
 
             Map<String,Object> match = new HashMap<>();
-            match.put("Champion",et_ChampionName.getText().toString());
+            match.put("Champion",tv_selectChamp.getText().toString());
             match.put("Creep Score", et_cs.getText().toString());
             match.put("Result",spinner_winOrLoss.getSelectedItem().toString() );
             match.put("Items", itemsFinalString);
