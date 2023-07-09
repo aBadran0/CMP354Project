@@ -220,7 +220,9 @@ public class AddMatch extends AppCompatActivity implements View.OnClickListener 
             match.put("Items", itemsFinalString);
             match.put("Role", spinner_role.getSelectedItem().toString());
             match.put("Damage",et_damage.getText().toString());
-            db.collection(userEmail).document("Match ").set(match);
+            String matchNumber = "Match " + singleton.getInstance().getIntValue();
+            db.collection(userEmail).document(matchNumber).set(match);
+            singleton.getInstance().setIntValue(singleton.getInstance().getIntValue()+1);
 
 
             Toast.makeText(this, "Match has been added",Toast.LENGTH_SHORT).show();

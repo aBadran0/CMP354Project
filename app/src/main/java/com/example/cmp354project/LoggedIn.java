@@ -68,6 +68,7 @@ public class LoggedIn extends AppCompatActivity implements View.OnClickListener
         regionSelect.setAdapter(adapter);
         db = FirebaseFirestore.getInstance();
         String userEmail = getIntent().getStringExtra("username");
+        singleton.getInstance().setIntValue(0);
 
         db.collection(userEmail)
                 .whereEqualTo("Account Setup", "false") // Assuming you have a field called "userId" in your documents
