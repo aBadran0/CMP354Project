@@ -1,5 +1,6 @@
 package com.example.cmp354project;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.annotation.SuppressLint;
@@ -9,12 +10,26 @@ import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.ListView;
+import android.widget.QuickContactBadge;
+import android.widget.SimpleAdapter;
 import android.widget.TextView;
+
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 public class MatchHistory extends AppCompatActivity implements AdapterView.OnItemClickListener {
 
@@ -24,9 +39,11 @@ public class MatchHistory extends AppCompatActivity implements AdapterView.OnIte
 
     TextView tv_searchChamps;
 
-    //ListView lv_viewchamps;
+    ListView lv_Matches;
 
     ArrayAdapter<CharSequence> champListAdapter;
+
+    FirebaseFirestore db = FirebaseFirestore.getInstance();
 
 
     @SuppressLint("MissingInflatedId")
@@ -39,6 +56,7 @@ public class MatchHistory extends AppCompatActivity implements AdapterView.OnIte
 
 
         // et_champlist.setOnClickListener(this);
+        updateDisplay();
         tv_searchChamps.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -93,9 +111,44 @@ public class MatchHistory extends AppCompatActivity implements AdapterView.OnIte
 
     }
 
-/*    public void updateDisplay()
+    public void updateDisplay()
     {
-    }*/
+        db.collection("Match")
+                .get()
+                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        if (task.isSuccessful()) {
+                            for (QueryDocumentSnapshot document : task.getResult()) {
+                                // Log.d(TAG, document.getId() + " => " + document.getData());
+                                ArrayList<HashMap<String, String>> data =
+                                        new ArrayList<HashMap<String, String>>();
+                                String ChampName = document.get("Champion").toString();
+                                String Result = document.get("Result").toString();
+
+                                HashMap<String, String> map = new HashMap<String, String>();
+                                map.put("Champion", ChampName);
+                                map.put("Result",Result );
+                                data.add(map);
+
+                                int resource = R.layout.listview_item;
+                                String[] from = {"Champion", "Result"};
+                                int[] to = {R.id.tv_ChampName, R.id.tv_matchResult};
+
+                                // create and set the adapter
+                                SimpleAdapter adapter =
+                                       new SimpleAdapter(MatchHistory.this, data, resource, from, to);
+                                lv_Matches.setAdapter(adapter);
+
+                            }
+                        }
+                    }
+                });
+
+
+
+
+    }
 
 
     @Override
