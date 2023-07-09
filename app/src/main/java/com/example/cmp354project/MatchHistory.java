@@ -24,7 +24,7 @@ public class MatchHistory extends AppCompatActivity implements AdapterView.OnIte
 
     TextView tv_searchChamps;
 
-    //ListView lv_viewchamps;
+    ListView lv_viewchamps;
 
     ArrayAdapter<CharSequence> champListAdapter;
 

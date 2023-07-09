@@ -2,9 +2,14 @@ package com.example.cmp354project;
 
 import android.annotation.SuppressLint;
 import android.app.Dialog;
+import android.app.Notification;
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
+import android.app.PendingIntent;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
+import android.os.Build;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -20,6 +25,7 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.NotificationCompat;
 
 import com.google.firebase.firestore.FirebaseFirestore;
 
@@ -43,6 +49,7 @@ public class AddMatch extends AppCompatActivity implements View.OnClickListener 
     TextView tv_selectChamp,tv_selectItem;
 
     String userEmail = "";
+
 
 
 
@@ -234,10 +241,54 @@ public class AddMatch extends AppCompatActivity implements View.OnClickListener 
 
 
             Toast.makeText(this, "Match has been added",Toast.LENGTH_SHORT).show();
+            createNotification();
 
 
             finish();
         }
 
     }
+
+    public void createNotification()
+    {
+        Intent notificationIntent = new Intent(this, AddMatch.class)
+                .addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+
+
+        PendingIntent pendingIntent =
+               PendingIntent.getActivity(this, 0, notificationIntent, PendingIntent.FLAG_UPDATE_CURRENT | PendingIntent.FLAG_IMMUTABLE);
+
+
+        int icon = R.drawable.league_icon;
+        CharSequence tickerText = "Match has been added to your match history";
+        CharSequence contentTitle = getText(R.string.app_name);
+        CharSequence contentText = "Click to go to your match history";
+
+        NotificationChannel notificationChannel = null;
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            notificationChannel = new NotificationChannel("Channel_ID", "My Notifications", NotificationManager.IMPORTANCE_DEFAULT);
+        }
+
+        NotificationManager manager = (NotificationManager) getSystemService(this.NOTIFICATION_SERVICE);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            manager.createNotificationChannel(notificationChannel);
+        }
+        Notification notification = new NotificationCompat
+                .Builder(this, "Channel_ID")
+                .setSmallIcon(icon)
+                .setTicker(tickerText)
+                .setContentTitle(contentTitle)
+                .setContentText(contentText)
+                .setContentIntent(pendingIntent)
+                .setAutoCancel(true)
+                .setChannelId("Channel_ID")
+                .build();
+
+        final int NOTIFICATION_ID = 1;
+        manager.notify(NOTIFICATION_ID, notification);
+
+
+
+    }
+
 }
