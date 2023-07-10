@@ -1,5 +1,7 @@
 package com.example.cmp354project;
 
+import static android.content.ContentValues.TAG;
+
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -24,6 +26,7 @@ import android.widget.TextView;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -60,7 +63,6 @@ public class MatchHistory extends AppCompatActivity implements AdapterView.OnIte
 
 
         // et_champlist.setOnClickListener(this);
-        updateDisplay();
         tv_searchChamps.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -112,81 +114,55 @@ public class MatchHistory extends AppCompatActivity implements AdapterView.OnIte
                 });
             }
         });
+        updateDisplay();
 
     }
 
     public void updateDisplay() {
-        /*db.collection("test2@aus.edu").document("Match " + )
+        db.collection("test2@aus.edu")
+                .get()
                 .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                     @Override
                     public void onComplete(@NonNull Task<QuerySnapshot> task) {
                         if (task.isSuccessful()) {
+                            int i = 1;
+                            ArrayList<HashMap<String, String>> data =
+                                    new ArrayList<>();
                             for (QueryDocumentSnapshot document : task.getResult()) {
-                                // Log.d(TAG, document.getId() + " => " + document.getData());
-                                ArrayList<HashMap<String, String>> data =
-                                        new ArrayList<HashMap<String, String>>();
-                                String ChampName = document.get("Champion").toString();
-                                String Result = document.get("Result").toString();
+                                String documentTitle = document.getId();
 
-                                HashMap<String, String> map = new HashMap<String, String>();
-                                map.put("Champion", ChampName);
-                                map.put("Result",Result );
-                                data.add(map);
+                                    if(documentTitle.equals("Match " + i))
+                                    {
 
-                                int resource = R.layout.listview_item;
-                                String[] from = {"Champion", "Result"};
-                                int[] to = {R.id.tv_ChampName, R.id.tv_matchResult};
+                                        String ChampName = document.getString("Champion");
+                                        String Result = document.getString("Result");
 
-                                // create and set the adapter
-                                SimpleAdapter adapter =
-                                        new SimpleAdapter(MatchHistory.this, data, resource, from, to);
-                                lv_Matches.setAdapter(adapter);
+                                        HashMap<String, String> map = new HashMap<>();
+                                        map.put("Champion", ChampName);
+                                        map.put("Result",Result );
+                                        data.add(map);
+
+                                        int resource = R.layout.listview_item;
+                                        String[] from = {"Champion", "Result"};
+                                        int[] to = {R.id.tv_Champion, R.id.tv_result};
+
+                                        // create and set the adapter
+                                        SimpleAdapter adapter =
+                                                new SimpleAdapter(MatchHistory.this, data, resource, from, to);
+                                        lv_Matches.setAdapter(adapter);
+                                        i++;
+                                    }
 
                             }
+                        } else {
+
                         }
                     }
-                });*/
-        int i = 1;
-        while (i < singleton.getInstance().getIntValue()) {
-            DocumentReference docRef = db.collection("test2@aus.edu").document("Match " + singleton.getInstance().getIntValue());
-            docRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
-                @Override
-                public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-                    if (task.isSuccessful()) {
-                        DocumentSnapshot document = task.getResult();
-                        if (document.exists()) {
-                            for (int i = 1; i <= singleton.getInstance().getIntValue(); ++i) {
+                });
 
-                               // docRef = db.collection("test2@aus.edu").document("Match " + singleton.getInstance().getIntValue());
-                                ArrayList<HashMap<String, String>> data =
-                                        new ArrayList<HashMap<String, String>>();
-                                String ChampName = document.get("Champion").toString();
-                                String Result = document.get("Result").toString();
-
-                                HashMap<String, String> map = new HashMap<String, String>();
-                                map.put("Champion", ChampName);
-                                map.put("Result", Result);
-                                data.add(map);
-
-                                int resource = R.layout.listview_item;
-                                String[] from = {"Champion", "Result"};
-                                int[] to = {R.id.tv_ChampName, R.id.tv_matchResult};
-
-                                // create and set the adapter
-                                SimpleAdapter adapter =
-                                        new SimpleAdapter(getApplicationContext(), data, resource, from, to);
-                                lv_Matches.setAdapter(adapter);
-                                i++;
-                            }
-                        }
-                    }
-                }
-            });
 
         }
 
-
-    }
 
 
     @Override
