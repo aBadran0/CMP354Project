@@ -48,6 +48,7 @@ public class MatchHistory extends AppCompatActivity implements AdapterView.OnIte
     ListView lv_Matches;
 
     ArrayAdapter<CharSequence> champListAdapter;
+    ArrayAdapter<CharSequence> champSearch;
 
     FirebaseFirestore db = FirebaseFirestore.getInstance();
 
@@ -105,10 +106,15 @@ public class MatchHistory extends AppCompatActivity implements AdapterView.OnIte
                         // when item selected from list
                         // set selected item on textView
                         tv_searchChamps.setText(champListAdapter.getItem(position));
+
                         // Dismiss dialog
                         champDialog.dismiss();
+                        String search_term = tv_searchChamps.getText().toString();
+                       // champSearch = new ArrayAdapter<CharSequence>();
 
 
+
+                        updateDisplay();
 
                     }
                 });
@@ -130,18 +136,25 @@ public class MatchHistory extends AppCompatActivity implements AdapterView.OnIte
                                     new ArrayList<>();
                             for (QueryDocumentSnapshot document : task.getResult()) {
                                 String documentTitle = document.getId();
+                                String searchTerm = tv_searchChamps.getText().toString();
 
                                     if(documentTitle.equals("Match " + i))
                                     {
-
+                                        HashMap<String, String> map = new HashMap<>();
                                         String ChampName = document.getString("Champion");
                                         String Result = document.getString("Result");
 
-                                        HashMap<String, String> map = new HashMap<>();
-                                        map.put("Champion", ChampName);
-                                        map.put("Result",Result );
-                                        data.add(map);
-
+                                        if(searchTerm.equals(ChampName))
+                                        {
+                                            map.put("Champion", ChampName);
+                                            map.put("Result",Result );
+                                            data.add(map);
+                                        }
+                                        else {
+                                            map.put("Champion", ChampName);
+                                            map.put("Result", Result);
+                                            data.add(map);
+                                        }
                                         int resource = R.layout.listview_item;
                                         String[] from = {"Champion", "Result"};
                                         int[] to = {R.id.tv_Champion, R.id.tv_result};
