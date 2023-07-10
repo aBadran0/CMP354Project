@@ -254,9 +254,9 @@ public class AddMatch extends AppCompatActivity implements View.OnClickListener 
     public void createNotification()
     {
 
- Intent notificationIntent = new Intent(this, AddMatch.class)
+ Intent notificationIntent = new Intent(this, LoggedIn.class)
                 .addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-
+// fix this to pass stuff
 
         PendingIntent pendingIntent =
                PendingIntent.getActivity(this, 0, notificationIntent, PendingIntent.FLAG_UPDATE_CURRENT | PendingIntent.FLAG_IMMUTABLE);
@@ -264,12 +264,12 @@ public class AddMatch extends AppCompatActivity implements View.OnClickListener 
 
         int icon = R.drawable.league_icon;
         CharSequence tickerText = "Match has been added to your match history";
-        CharSequence contentTitle = getText(R.string.app_name);
+        CharSequence contentTitle = "League.gg";
         CharSequence contentText = "Click to go to your match history";
 
         NotificationChannel notificationChannel = null;
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            notificationChannel = new NotificationChannel("Channel_ID", "My Notifications", NotificationManager.IMPORTANCE_DEFAULT);
+            notificationChannel = new NotificationChannel("Channel_ID", "My Notifications", NotificationManager.IMPORTANCE_HIGH);
         }
 
         NotificationManager manager = (NotificationManager) getSystemService(this.NOTIFICATION_SERVICE);
