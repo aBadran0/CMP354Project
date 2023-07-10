@@ -158,6 +158,10 @@ public class LoggedIn extends AppCompatActivity implements View.OnClickListener 
             startActivity(addMatch);
 
         } else if (v.getId() == R.id.btn_searchSummoner) {
+            Intent viewHistory = new Intent(this, MatchHistory.class);
+            String userEmail = et_accountName.getText().toString();
+            viewHistory.putExtra("username", userEmail);
+            startActivity(viewHistory);
 
         }
 
@@ -173,6 +177,10 @@ public class LoggedIn extends AppCompatActivity implements View.OnClickListener 
         } else if (item.getItemId() == R.id.menu_matchHistory)
         {
             Intent viewHistory = new Intent(this, MatchHistory.class);
+            String userEmail = getIntent().getStringExtra("username");
+            viewHistory.putExtra("username", userEmail);
+
+
             startActivity(viewHistory);
         }
         return super.onOptionsItemSelected(item);

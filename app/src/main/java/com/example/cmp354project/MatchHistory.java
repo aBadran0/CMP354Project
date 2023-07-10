@@ -1,7 +1,5 @@
 package com.example.cmp354project;
 
-import static android.content.ContentValues.TAG;
-
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -19,14 +17,12 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.ListView;
-import android.widget.QuickContactBadge;
 import android.widget.SimpleAdapter;
 import android.widget.TextView;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
-import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -35,20 +31,17 @@ import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Map;
 
-public class MatchHistory extends AppCompatActivity implements AdapterView.OnItemClickListener {
+public class MatchHistory extends AppCompatActivity  {
 
 
-    EditText et_champlist;
     Dialog champDialog;
 
     TextView tv_searchChamps;
-
     ListView lv_Matches;
 
     ArrayAdapter<CharSequence> champListAdapter;
-    ArrayAdapter<CharSequence> champSearch;
+
 
     FirebaseFirestore db = FirebaseFirestore.getInstance();
 
@@ -58,12 +51,10 @@ public class MatchHistory extends AppCompatActivity implements AdapterView.OnIte
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_match_history);
-        //  et_champlist = findViewById(R.id.et_Champlist);
         tv_searchChamps = findViewById(R.id.tv_searchChamp);
         lv_Matches = findViewById(R.id.lv_matches);
 
 
-        // et_champlist.setOnClickListener(this);
         tv_searchChamps.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -81,7 +72,7 @@ public class MatchHistory extends AppCompatActivity implements AdapterView.OnIte
                 EditText et_searchChamp = champDialog.findViewById(R.id.et_searchChamp);
                 ListView lv_viewChamp = champDialog.findViewById(R.id.lv_ViewChamp);
                 // Initialize array adapter
-                champListAdapter =ArrayAdapter.createFromResource(MatchHistory.this, R.array.Champions, android.R.layout.simple_spinner_item);
+                champListAdapter = ArrayAdapter.createFromResource(MatchHistory.this, R.array.Champions, android.R.layout.simple_spinner_item);
                 champListAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
                 // set adapter
                 lv_viewChamp.setAdapter(champListAdapter);
@@ -90,10 +81,12 @@ public class MatchHistory extends AppCompatActivity implements AdapterView.OnIte
                     public void beforeTextChanged(CharSequence s, int start, int count, int after) {
 
                     }
+
                     @Override
                     public void onTextChanged(CharSequence s, int start, int before, int count) {
                         champListAdapter.getFilter().filter(s);
                     }
+
                     @Override
                     public void afterTextChanged(Editable s) {
 
@@ -110,22 +103,55 @@ public class MatchHistory extends AppCompatActivity implements AdapterView.OnIte
                         // Dismiss dialog
                         champDialog.dismiss();
                         String search_term = tv_searchChamps.getText().toString();
-                       // champSearch = new ArrayAdapter<CharSequence>();
+                        // champSearch = new ArrayAdapter<CharSequence>();
 
-
-
-                        updateDisplay();
 
                     }
                 });
             }
         });
         updateDisplay();
+        lv_Matches.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                FirebaseFirestore db = FirebaseFirestore.getInstance();
+                DocumentReference docRef = db.collection(getIntent().getStringExtra("username")).document("Match "+ position);
 
+
+                int finalPosition = position;
+                docRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                        if (!isFinishing() && task.isSuccessful()) {
+                            DocumentSnapshot document = task.getResult();
+                            if (document != null && document.exists()) {
+                                String data = document.getString("Champion");
+
+                                // Pass the data to the next activity only if it is available
+                                if (data != null) {
+                                    Intent intent = new Intent(MatchHistory.this, MatchView.class);
+                                    intent.putExtra("position", finalPosition);
+                                    intent.putExtra("username", getIntent().getStringExtra("username"));
+                                    startActivity(intent);
+
+                                } else {
+                                    // Handle the case when the data is null
+                                }
+                            } else {
+                                // Document doesn't exist
+                                // Handle the case when the document is not found
+                            }
+                        } else {
+
+                        }
+                    }
+                });
+            }
+        });
     }
 
     public void updateDisplay() {
-        db.collection("test2@aus.edu")
+        db.collection(getIntent().getStringExtra("username"))
                 .get()
                 .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                     @Override
@@ -178,12 +204,6 @@ public class MatchHistory extends AppCompatActivity implements AdapterView.OnIte
 
 
 
-    @Override
-    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-
-        Intent intent = new Intent(this, MatchView.class);
 
 
-        this.startActivity(intent);
-    }
 }
