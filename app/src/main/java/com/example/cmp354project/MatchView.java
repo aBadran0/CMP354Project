@@ -7,6 +7,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
@@ -99,7 +100,18 @@ public class MatchView extends AppCompatActivity {
                 tv_creepScore.setText(creepScore);
                 tv_Role.setText(role);
                 tv_Items.setText(items);
-                tv_Result.setText(result);
+                if(result.equals("Win"))
+                {
+
+                    tv_Result.setText(result);
+                    tv_Result.setTextColor(Color.parseColor("#008000"));
+                }
+                else
+                {
+                    tv_Result.setText(result);
+                    tv_Result.setTextColor(Color.parseColor("#FF0000"));
+                }
+
                 tv_Damage.setText(damage);
 
             }

@@ -42,7 +42,7 @@ public class MatchHistory extends AppCompatActivity implements View.OnClickListe
 
     Dialog champDialog;
 
-    TextView tv_searchChamps;
+    TextView tv_searchChamps, tv_MatchHistoryOfWho;
     ListView lv_Matches;
 
     ArrayAdapter<CharSequence> champListAdapter;
@@ -60,16 +60,19 @@ public class MatchHistory extends AppCompatActivity implements View.OnClickListe
         setContentView(R.layout.activity_match_history);
         tv_searchChamps = findViewById(R.id.tv_searchChamp);
         lv_Matches = findViewById(R.id.lv_matches);
+        tv_MatchHistoryOfWho = findViewById(R.id.tv_MatchHistoryOfWho);
             mAuth = FirebaseAuth.getInstance();
 
         if(getIntent().hasExtra("searchTerm"))
         {
             currentUser = getIntent().getStringExtra("searchTerm");
+            tv_MatchHistoryOfWho.setText("Match History of " + currentUser);
 
             Log.d("Current user intent ", currentUser);
         }
         else {
             currentUser = mAuth.getCurrentUser().getEmail();
+            tv_MatchHistoryOfWho.setText("Match History of " + currentUser);
             Log.d("Current user auth", currentUser);
         }
 
@@ -122,7 +125,6 @@ public class MatchHistory extends AppCompatActivity implements View.OnClickListe
                         // Dismiss dialog
                         champDialog.dismiss();
                         String search_term = tv_searchChamps.getText().toString();
-                        // champSearch = new ArrayAdapter<CharSequence>();
 
 
                     }

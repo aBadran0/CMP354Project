@@ -5,6 +5,7 @@ import static android.content.ContentValues.TAG;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.AlertDialog;
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.Button;
@@ -56,6 +57,8 @@ public class loginScreen extends AppCompatActivity implements View.OnClickListen
         btn_login.setOnClickListener(this);
         btn_sign_up.setOnClickListener(this);
         db2 = FirebaseFirestore.getInstance();
+
+
 
 
     }

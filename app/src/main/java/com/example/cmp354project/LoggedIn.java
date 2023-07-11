@@ -7,6 +7,8 @@ import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.annotation.SuppressLint;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -47,10 +49,13 @@ public class LoggedIn extends AppCompatActivity implements View.OnClickListener 
     Spinner regionSelect;
 
     Button addMatchToHistoryButton;
+    TextView tv_userCurrentlySignedIn;
 
 
     ArrayAdapter<CharSequence> adapter;
     FirebaseFirestore db;
+    AlertDialog.Builder builder;
+    FirebaseAuth mAuth;
 
 
     @SuppressLint("MissingInflatedId")
@@ -69,15 +74,20 @@ public class LoggedIn extends AppCompatActivity implements View.OnClickListener 
         addMatchToHistoryButton = findViewById(R.id.btn_addMatchToHistory);
 
         et_accountName = findViewById(R.id.et_accountName);
+        tv_userCurrentlySignedIn = findViewById(R.id.tv_userCurrentlySignedIn);
 
 
         searchButton.setOnClickListener(this);
         addMatchToHistoryButton.setOnClickListener(this);
+        mAuth = FirebaseAuth.getInstance();
+
+        tv_userCurrentlySignedIn.setText("You are currently signed in as user " + mAuth.getCurrentUser().getEmail().toString());
 
 
         db = FirebaseFirestore.getInstance();
         String userEmail = getIntent().getStringExtra("username");
         DocumentReference docRef = db.collection(userEmail).document("Account Setup");
+        builder = new AlertDialog.Builder(this);
 
 
         docRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
@@ -158,9 +168,21 @@ public class LoggedIn extends AppCompatActivity implements View.OnClickListener 
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
 
         if (item.getItemId() == R.id.menu_about) {
+            builder.setMessage("This application is designed to create a manual League of Legends match history. Users can input their matches through the 'Add match' " +
+                    "feature, they can view their history through the 'View match history' feature, and they can view other users matches by searching with the users email.");
+            builder.setPositiveButton("Proceed", new DialogInterface.OnClickListener() {
+                public void onClick(DialogInterface dialog, int id) {
+
+                }
+            });
+            AlertDialog dialog = builder.create();
+            dialog.setTitle("About");
+            dialog.show();
 
 
-        } else if (item.getItemId() == R.id.menu_matchHistory)
+
+        }
+        else if (item.getItemId() == R.id.menu_matchHistory)
         {
             Intent viewHistory = new Intent(this, MatchHistory.class);
 

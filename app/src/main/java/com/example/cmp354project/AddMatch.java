@@ -209,7 +209,7 @@ public class AddMatch extends AppCompatActivity implements View.OnClickListener 
 
             }
             else {
-                if(index <= 6)
+                if(index <= 4)
                 {
                     items.add(tv_selectItem.getText().toString());
                     String currentItem = tv_selectItem.getText().toString();
