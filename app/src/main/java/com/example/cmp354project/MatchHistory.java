@@ -33,7 +33,7 @@ import com.google.firebase.firestore.QuerySnapshot;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-public class MatchHistory extends AppCompatActivity  {
+public class MatchHistory extends AppCompatActivity implements View.OnClickListener {
 
 
     Dialog champDialog;
@@ -42,6 +42,7 @@ public class MatchHistory extends AppCompatActivity  {
     ListView lv_Matches;
 
     ArrayAdapter<CharSequence> champListAdapter;
+    ArrayAdapter<CharSequence> customChampListAdapter;
 
 
     FirebaseFirestore db = FirebaseFirestore.getInstance();
@@ -215,7 +216,11 @@ public class MatchHistory extends AppCompatActivity  {
         }
 
 
+    @Override
+    public void onClick(View v) {
 
 
 
+
+    }
 }

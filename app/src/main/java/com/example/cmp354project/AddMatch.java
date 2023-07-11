@@ -274,7 +274,7 @@ public class AddMatch extends AppCompatActivity implements View.OnClickListener 
     public void createNotification()
     {
 
- Intent notificationIntent = new Intent(this, LoggedIn.class)
+ Intent notificationIntent = new Intent(this, MatchView.class)
                 .addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
 // fix this to pass stuff
 

@@ -10,6 +10,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -19,6 +20,7 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.squareup.picasso.Picasso;
 
 public class MatchView extends AppCompatActivity {
 
@@ -30,6 +32,7 @@ public class MatchView extends AppCompatActivity {
     String items ;
     String result ;
     String role ;
+    ImageView splashart;
 
     FirebaseAuth mAuth;
 
@@ -46,6 +49,8 @@ public class MatchView extends AppCompatActivity {
         tv_Items = findViewById(R.id.tv_Items);
         tv_Result = findViewById(R.id.tv_matchResult);
         tv_Damage = findViewById(R.id.tv_Damage);
+        splashart = findViewById(R.id.splashArt);
+
 
         Intent getMatch = getIntent();
         int position = getMatch.getIntExtra("position",0);
@@ -76,6 +81,15 @@ public class MatchView extends AppCompatActivity {
                     }
 
                 }
+
+
+                if(champName.equals("Nunu & Willump"))
+                {
+                    String ccname = "Nunu";
+                    Picasso.get().load("https://ddragon.leagueoflegends.com/cdn/img/champion/splash/"+ccname+"_0.jpg").into(splashart);
+
+                }
+                Picasso.get().load("https://ddragon.leagueoflegends.com/cdn/img/champion/splash/"+champName+"_0.jpg").into(splashart);
                 tv_Champ.setText(champName);
                 tv_creepScore.setText(creepScore);
                 tv_Role.setText(role);
