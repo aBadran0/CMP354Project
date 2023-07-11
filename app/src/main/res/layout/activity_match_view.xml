@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:layout_weight="1"
     android:orientation="vertical"
     tools:context=".MatchView">
 
@@ -28,7 +29,7 @@
             android:layout_marginBottom="5dp"
             android:fontFamily="sans-serif-black"
             android:text="Aatrox"
-            android:textSize="20sp" />
+            android:textSize="24sp" />
 
         <TextView
             android:id="@+id/tv_matchResult"
@@ -37,7 +38,7 @@
             android:layout_marginLeft="10dp"
             android:fontFamily="sans-serif-medium"
             android:text="Result"
-            android:textSize="10sp" />
+            android:textSize="18sp" />
     </LinearLayout>
 
     <LinearLayout
@@ -69,13 +70,15 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="Role" />
+            android:text="Role"
+            android:textSize="18sp" />
 
         <TextView
             android:id="@+id/tv_Role"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_weight="1.5" />
+            android:layout_weight="1"
+            android:textSize="18sp" />
     </LinearLayout>
 
     <LinearLayout
@@ -92,13 +95,15 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="Creep Score" />
+            android:text="Creep Score"
+            android:textSize="18sp" />
 
         <TextView
             android:id="@+id/tv_creepScore"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_weight="2.4" />
+            android:layout_weight="1"
+            android:textSize="18sp" />
     </LinearLayout>
 
     <LinearLayout
@@ -115,13 +120,15 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="Items" />
+            android:text="Items"
+            android:textSize="18sp" />
 
         <TextView
             android:id="@+id/tv_Items"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_weight="1" />
+            android:layout_weight="1"
+            android:textSize="18sp" />
     </LinearLayout>
 
     <LinearLayout
@@ -138,12 +145,14 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="Damage" />
+            android:text="Damage"
+            android:textSize="18sp" />
 
         <TextView
             android:id="@+id/tv_Damage"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_weight="1" />
+            android:layout_weight="1"
+            android:textSize="18sp" />
     </LinearLayout>
 </LinearLayout>

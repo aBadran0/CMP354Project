@@ -33,6 +33,7 @@ public class MatchView extends AppCompatActivity {
     String result ;
     String role ;
     ImageView splashart;
+    String summonerName = "";
 
     FirebaseAuth mAuth;
 
@@ -58,10 +59,21 @@ public class MatchView extends AppCompatActivity {
 
 
        // tv_Champ.setText(champName);
+        if(getIntent().hasExtra("searchTerm"))
+        {
+            summonerName = getIntent().getStringExtra("searchTerm");
+        }
+        else {
+            summonerName = mAuth.getCurrentUser().getEmail();
+        }
+        if(getIntent().hasExtra("Match Number"))
+        {
+            position = getIntent().getIntExtra("Match Number", 0);
+        }
 
 
 
-        DocumentReference docRef = db.collection(mAuth.getCurrentUser().getEmail()).document("Match " + position);
+        DocumentReference docRef = db.collection(summonerName).document("Match " + position);
         docRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
             @Override
             public void onComplete(@NonNull Task<DocumentSnapshot> task) {
@@ -69,7 +81,7 @@ public class MatchView extends AppCompatActivity {
                     DocumentSnapshot document = task.getResult();
                     if (document != null && document.exists()) {
                         champName = document.getString("Champion");
-                        creepScore = document.getString("Creep score");
+                        creepScore = document.getString("Creep Score");
                         damage = document.getString("Damage");
                         items = document.getString("Items");
                         role = document.getString("Role");
@@ -82,13 +94,6 @@ public class MatchView extends AppCompatActivity {
 
                 }
 
-
-                if(champName.equals("Nunu & Willump"))
-                {
-                    String ccname = "Nunu";
-                    Picasso.get().load("https://ddragon.leagueoflegends.com/cdn/img/champion/splash/"+ccname+"_0.jpg").into(splashart);
-
-                }
                 Picasso.get().load("https://ddragon.leagueoflegends.com/cdn/img/champion/splash/"+champName+"_0.jpg").into(splashart);
                 tv_Champ.setText(champName);
                 tv_creepScore.setText(creepScore);

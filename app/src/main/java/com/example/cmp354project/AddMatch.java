@@ -228,6 +228,8 @@ public class AddMatch extends AppCompatActivity implements View.OnClickListener 
             {
                 itemsFinalString += s + ",";
            }
+
+
             if(singleton.getInstance().getIntValue() > 10)
             {
                 Toast.makeText(this, "You cannot have more than 10 matches saved", Toast.LENGTH_SHORT);
@@ -274,7 +276,7 @@ public class AddMatch extends AppCompatActivity implements View.OnClickListener 
     public void createNotification()
     {
 
- Intent notificationIntent = new Intent(this, MatchView.class)
+ Intent notificationIntent = new Intent(this, MatchView.class).putExtra("Match Number", (singleton.getInstance().getIntValue())-1)
                 .addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
 // fix this to pass stuff
 

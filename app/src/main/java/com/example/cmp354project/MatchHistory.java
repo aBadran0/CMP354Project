@@ -57,6 +57,7 @@ public class MatchHistory extends AppCompatActivity implements View.OnClickListe
         tv_searchChamps = findViewById(R.id.tv_searchChamp);
         lv_Matches = findViewById(R.id.lv_matches);
             mAuth = FirebaseAuth.getInstance();
+
         if(getIntent().hasExtra("searchTerm"))
         {
             currentUser = getIntent().getStringExtra("searchTerm");
@@ -145,6 +146,8 @@ public class MatchHistory extends AppCompatActivity implements View.OnClickListe
                                 if (data != null) {
                                     Intent intent = new Intent(MatchHistory.this, MatchView.class);
                                     intent.putExtra("position", finalPosition);
+                                    intent.putExtra("searchTerm", currentUser);
+
                                     startActivity(intent);
 
                                 } else {

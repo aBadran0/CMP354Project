@@ -33,13 +33,6 @@
         android:layout_marginBottom="20dp"
         android:orientation="horizontal">
 
-        <Spinner
-            android:id="@+id/regionSelect"
-            android:layout_width="50dp"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="30dp"
-            android:layout_weight="1" />
-
         <EditText
             android:id="@+id/et_accountName"
             android:layout_width="wrap_content"
@@ -47,7 +40,7 @@
             android:layout_marginTop="30dp"
             android:layout_weight="1"
             android:ems="10"
-            android:hint="Summoner name"
+            android:hint="Summoner Email"
             android:inputType="text" />
 
     </LinearLayout>

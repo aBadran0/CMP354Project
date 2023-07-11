@@ -18,11 +18,16 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
+
+import org.w3c.dom.Document;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -54,7 +59,6 @@ public class LoggedIn extends AppCompatActivity implements View.OnClickListener 
         actionBar.setDisplayShowHomeEnabled(true);
 
 
-        regionSelect = findViewById(R.id.regionSelect);
         searchButton = findViewById(R.id.btn_searchSummoner);
         addMatchToHistoryButton = findViewById(R.id.btn_addMatchToHistory);
 
@@ -64,10 +68,7 @@ public class LoggedIn extends AppCompatActivity implements View.OnClickListener 
         searchButton.setOnClickListener(this);
         addMatchToHistoryButton.setOnClickListener(this);
 
-        adapter = ArrayAdapter.createFromResource(this, R.array.Regions, android.R.layout.simple_spinner_item);
 
-        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        regionSelect.setAdapter(adapter);
         db = FirebaseFirestore.getInstance();
         String userEmail = getIntent().getStringExtra("username");
         DocumentReference docRef = db.collection(userEmail).document("Account Setup");
@@ -81,7 +82,7 @@ public class LoggedIn extends AppCompatActivity implements View.OnClickListener 
                     if (document.exists()) {
                         if (document.get("Number of matches") != null) {
                             Long L = (Long) document.get("Number of matches");
-                            singleton.getInstance().setIntValue(L.intValue() + 1);
+                            singleton.getInstance().setIntValue(L.intValue()+1);
 
                         } else {
                             singleton.getInstance().setIntValue(1);
@@ -107,27 +108,6 @@ public class LoggedIn extends AppCompatActivity implements View.OnClickListener 
     protected void onResume() {
         super.onResume();
 
-//        db = FirebaseFirestore.getInstance();
-//        String userEmail = getIntent().getStringExtra("username");
-//        DocumentReference docRef = db.collection(userEmail).document("Account Setup");
-//
-//        docRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
-//            @Override
-//            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-//                if (task.isSuccessful()) {
-//                    DocumentSnapshot document = task.getResult();
-//                    if (document.exists()) {
-//                        if (document.getString("Account Setup").equals("true")) {
-//                            setupButton.setVisibility(View.INVISIBLE);
-//                        }
-//
-//                    }
-//                } else {
-//
-//                }
-//            }
-//        });
-
 
     }
 
@@ -139,11 +119,29 @@ public class LoggedIn extends AppCompatActivity implements View.OnClickListener 
             startActivity(addMatch);
 
         } else if (v.getId() == R.id.btn_searchSummoner) {
-            Intent viewHistory = new Intent(this, MatchHistory.class);
-            viewHistory.putExtra("searchTerm", et_accountName.getText().toString());
-            startActivity(viewHistory);
+             CollectionReference reference = db.collection(et_accountName.getText().toString());
+             reference.get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
+                 @Override
+                 public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
+                     if(queryDocumentSnapshots.isEmpty()){
 
-        }
+                         Toast.makeText(getApplicationContext(), "This user does not exist",
+                                 Toast.LENGTH_LONG).show();
+                     }
+                     else {
+                         Intent viewHistory = new Intent(getApplicationContext(), MatchHistory.class);
+                         viewHistory.putExtra("searchTerm", et_accountName.getText().toString());
+                         startActivity(viewHistory);
+
+                     }
+                 }
+             });
+
+
+
+
+
+         }
 
 
 
