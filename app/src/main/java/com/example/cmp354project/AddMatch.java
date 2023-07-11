@@ -203,17 +203,26 @@ public class AddMatch extends AppCompatActivity implements View.OnClickListener 
        }
         if(v.getId()==R.id.btn_addItem)
         {
-            if(index <= 6)
+            if(tv_selectItem.getText().toString().equals(""))
             {
-                items.add(tv_selectItem.getText().toString());
-                String currentItem = tv_selectItem.getText().toString();
-                tv_selectItem.setText("");
-                index++;
-                tv_currentItems.setText(tv_currentItems.getText().toString()+ " \n" + currentItem);
+                Toast.makeText(this, "Please choose an item before adding",Toast.LENGTH_SHORT).show();
+
             }
             else {
-                Toast.makeText(this, "You cannot add more than 6 items",Toast.LENGTH_SHORT).show();
+                if(index <= 6)
+                {
+                    items.add(tv_selectItem.getText().toString());
+                    String currentItem = tv_selectItem.getText().toString();
+                    tv_selectItem.setText("");
+                    index++;
+                    tv_currentItems.setText(tv_currentItems.getText().toString()+ " \n" + currentItem);
+                }
+                else {
+                    Toast.makeText(this, "You cannot add more than 6 items",Toast.LENGTH_SHORT).show();
+                }
+
             }
+
         }
         else if(v.getId()== R.id.btn_removeItem)
         {
@@ -221,7 +230,8 @@ public class AddMatch extends AppCompatActivity implements View.OnClickListener 
             {
 
                 String tempString =  tv_currentItems.getText().toString();
-                tempString.replace(items.get(index), "");
+                tempString = tempString.substring(0, tempString.length()-items.get(index).length()-2);
+                tv_currentItems.setText(tempString);
                 items.remove(index);
                 index--;
             }
