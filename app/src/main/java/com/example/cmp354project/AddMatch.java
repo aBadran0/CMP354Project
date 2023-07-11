@@ -29,6 +29,7 @@ import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.NotificationCompat;
 
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.ArrayList;
@@ -49,8 +50,8 @@ public class AddMatch extends AppCompatActivity implements View.OnClickListener 
     String itemsFinalString = "";
     ArrayList<String> items = new ArrayList<String>();
     TextView tv_selectChamp,tv_selectItem;
+    FirebaseAuth mAuth;
 
-    String userEmail = "";
 
 
 
@@ -91,8 +92,9 @@ public class AddMatch extends AppCompatActivity implements View.OnClickListener 
         resultadapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinner_winOrLoss.setAdapter(resultadapter);
         db = FirebaseFirestore.getInstance();
-        Intent intent = getIntent();
-        userEmail = intent.getStringExtra("username");
+
+        mAuth = FirebaseAuth.getInstance();
+
 
 
 
@@ -150,6 +152,7 @@ public class AddMatch extends AppCompatActivity implements View.OnClickListener 
     @Override
     public void onClick(View v) {
        FirebaseFirestore db = FirebaseFirestore.getInstance();
+       String userEmail = mAuth.getCurrentUser().getEmail();
        if(v.getId() == R.id.tv_enterChamp)
        {
            champSelectDialog = new Dialog(AddMatch.this);
@@ -224,6 +227,10 @@ public class AddMatch extends AppCompatActivity implements View.OnClickListener 
             {
                 itemsFinalString += s + ",";
            }
+            if(singleton.getInstance().getIntValue() > 10)
+            {
+                Toast.makeText(this, "You cannot have more than 10 matches saved", Toast.LENGTH_SHORT);
+            }
 
             Map<String,Object> match = new HashMap<>();
             Map<String,Object> numberOfMatches = new HashMap<>();

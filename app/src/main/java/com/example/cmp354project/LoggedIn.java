@@ -35,8 +35,6 @@ public class LoggedIn extends AppCompatActivity implements View.OnClickListener 
 
     Spinner regionSelect;
 
-    Button setupButton;
-
     Button addMatchToHistoryButton;
 
 
@@ -58,14 +56,12 @@ public class LoggedIn extends AppCompatActivity implements View.OnClickListener 
 
         regionSelect = findViewById(R.id.regionSelect);
         searchButton = findViewById(R.id.btn_searchSummoner);
-        setupButton = findViewById(R.id.btn_setAccount);
         addMatchToHistoryButton = findViewById(R.id.btn_addMatchToHistory);
 
         et_accountName = findViewById(R.id.et_accountName);
 
 
         searchButton.setOnClickListener(this);
-        setupButton.setOnClickListener(this);
         addMatchToHistoryButton.setOnClickListener(this);
 
         adapter = ArrayAdapter.createFromResource(this, R.array.Regions, android.R.layout.simple_spinner_item);
@@ -91,11 +87,6 @@ public class LoggedIn extends AppCompatActivity implements View.OnClickListener 
                             singleton.getInstance().setIntValue(1);
                         }
 
-                        if (document.getString("Account Setup").equals("true")) {
-                            setupButton.setVisibility(View.INVISIBLE);
-
-                        }
-
                     }
                 } else {
 
@@ -116,54 +107,44 @@ public class LoggedIn extends AppCompatActivity implements View.OnClickListener 
     protected void onResume() {
         super.onResume();
 
-        db = FirebaseFirestore.getInstance();
-        String userEmail = getIntent().getStringExtra("username");
-        DocumentReference docRef = db.collection(userEmail).document("Account Setup");
-
-        docRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
-            @Override
-            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-                if (task.isSuccessful()) {
-                    DocumentSnapshot document = task.getResult();
-                    if (document.exists()) {
-                        if (document.getString("Account Setup").equals("true")) {
-                            setupButton.setVisibility(View.INVISIBLE);
-                        }
-
-                    }
-                } else {
-
-                }
-            }
-        });
+//        db = FirebaseFirestore.getInstance();
+//        String userEmail = getIntent().getStringExtra("username");
+//        DocumentReference docRef = db.collection(userEmail).document("Account Setup");
+//
+//        docRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+//            @Override
+//            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+//                if (task.isSuccessful()) {
+//                    DocumentSnapshot document = task.getResult();
+//                    if (document.exists()) {
+//                        if (document.getString("Account Setup").equals("true")) {
+//                            setupButton.setVisibility(View.INVISIBLE);
+//                        }
+//
+//                    }
+//                } else {
+//
+//                }
+//            }
+//        });
 
 
     }
 
     @Override
     public void onClick(View v) {
-        if (v.getId() == R.id.btn_setAccount) {
 
-
-            Intent setupIntent = new Intent(this, AccountSetup.class);
-            String userEmail = getIntent().getStringExtra("username");
-            setupIntent.putExtra("username", userEmail);
-            startActivity(setupIntent);
-
-        } else if (v.getId() == R.id.btn_addMatchToHistory) {
+         if (v.getId() == R.id.btn_addMatchToHistory) {
             Intent addMatch = new Intent(this, AddMatch.class);
-            String userEmail = getIntent().getStringExtra("username");
-            addMatch.putExtra("username", userEmail);
-
             startActivity(addMatch);
 
         } else if (v.getId() == R.id.btn_searchSummoner) {
             Intent viewHistory = new Intent(this, MatchHistory.class);
-            String userEmail = et_accountName.getText().toString();
-            viewHistory.putExtra("username", userEmail);
+            viewHistory.putExtra("searchTerm", et_accountName.getText().toString());
             startActivity(viewHistory);
 
         }
+
 
 
     }
@@ -177,9 +158,6 @@ public class LoggedIn extends AppCompatActivity implements View.OnClickListener 
         } else if (item.getItemId() == R.id.menu_matchHistory)
         {
             Intent viewHistory = new Intent(this, MatchHistory.class);
-            String userEmail = getIntent().getStringExtra("username");
-            viewHistory.putExtra("username", userEmail);
-
 
             startActivity(viewHistory);
         }

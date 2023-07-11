@@ -15,6 +15,7 @@ import android.widget.TextView;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -29,6 +30,8 @@ public class MatchView extends AppCompatActivity {
     String items ;
     String result ;
     String role ;
+
+    FirebaseAuth mAuth;
 
 
     @SuppressLint("MissingInflatedId")
@@ -46,14 +49,14 @@ public class MatchView extends AppCompatActivity {
 
         Intent getMatch = getIntent();
         int position = getMatch.getIntExtra("position",0);
+        mAuth = FirebaseAuth.getInstance();
 
 
        // tv_Champ.setText(champName);
 
 
-        position = position + 1;
 
-        DocumentReference docRef = db.collection(getIntent().getStringExtra("username")).document("Match " + position);
+        DocumentReference docRef = db.collection(mAuth.getCurrentUser().getEmail()).document("Match " + position);
         docRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
             @Override
             public void onComplete(@NonNull Task<DocumentSnapshot> task) {

@@ -23,6 +23,7 @@ import android.widget.TextView;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -44,7 +45,8 @@ public class MatchHistory extends AppCompatActivity  {
 
 
     FirebaseFirestore db = FirebaseFirestore.getInstance();
-
+    private FirebaseAuth mAuth;
+    String currentUser = "";
 
     @SuppressLint("MissingInflatedId")
     @Override
@@ -53,6 +55,17 @@ public class MatchHistory extends AppCompatActivity  {
         setContentView(R.layout.activity_match_history);
         tv_searchChamps = findViewById(R.id.tv_searchChamp);
         lv_Matches = findViewById(R.id.lv_matches);
+            mAuth = FirebaseAuth.getInstance();
+        if(getIntent().hasExtra("searchTerm"))
+        {
+            currentUser = getIntent().getStringExtra("searchTerm");
+
+            Log.d("Current user intent ", currentUser);
+        }
+        else {
+            currentUser = mAuth.getCurrentUser().getEmail();
+            Log.d("Current user auth", currentUser);
+        }
 
 
         tv_searchChamps.setOnClickListener(new View.OnClickListener() {
@@ -115,10 +128,10 @@ public class MatchHistory extends AppCompatActivity  {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 FirebaseFirestore db = FirebaseFirestore.getInstance();
-                DocumentReference docRef = db.collection(getIntent().getStringExtra("username")).document("Match "+ position);
 
+                DocumentReference docRef = db.collection(currentUser).document("Match "+ (position+1));
 
-                int finalPosition = position;
+                int finalPosition = position+1;
                 docRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
                     @Override
                     public void onComplete(@NonNull Task<DocumentSnapshot> task) {
@@ -131,7 +144,6 @@ public class MatchHistory extends AppCompatActivity  {
                                 if (data != null) {
                                     Intent intent = new Intent(MatchHistory.this, MatchView.class);
                                     intent.putExtra("position", finalPosition);
-                                    intent.putExtra("username", getIntent().getStringExtra("username"));
                                     startActivity(intent);
 
                                 } else {
@@ -151,7 +163,7 @@ public class MatchHistory extends AppCompatActivity  {
     }
 
     public void updateDisplay() {
-        db.collection(getIntent().getStringExtra("username"))
+        db.collection(currentUser)
                 .get()
                 .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                     @Override
