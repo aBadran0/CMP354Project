@@ -1,6 +1,7 @@
 package com.example.cmp354project;
 
 import android.annotation.SuppressLint;
+import android.app.AlertDialog;
 import android.app.Dialog;
 import android.app.Notification;
 import android.app.NotificationChannel;
@@ -8,6 +9,7 @@ import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.app.TaskStackBuilder;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
@@ -46,11 +48,12 @@ public class AddMatch extends AppCompatActivity implements View.OnClickListener 
 
     ArrayAdapter<CharSequence> roleadapter,resultadapter, champSelectAdapter,itemSelecAdapter;
     FirebaseFirestore db;
-    int index = 1;
+    int index = -1;
     String itemsFinalString = "";
     ArrayList<String> items = new ArrayList<String>();
     TextView tv_selectChamp,tv_selectItem, tv_currentItems;
     FirebaseAuth mAuth;
+    AlertDialog.Builder builder;
 
 
 
@@ -93,6 +96,8 @@ public class AddMatch extends AppCompatActivity implements View.OnClickListener 
         db = FirebaseFirestore.getInstance();
 
         mAuth = FirebaseAuth.getInstance();
+        builder = new AlertDialog.Builder(this);
+
 
 
 
@@ -204,7 +209,7 @@ public class AddMatch extends AppCompatActivity implements View.OnClickListener 
                 String currentItem = tv_selectItem.getText().toString();
                 tv_selectItem.setText("");
                 index++;
-                tv_currentItems.setText(tv_currentItems.getText().toString()+ ", " + currentItem);
+                tv_currentItems.setText(tv_currentItems.getText().toString()+ " \n" + currentItem);
             }
             else {
                 Toast.makeText(this, "You cannot add more than 6 items",Toast.LENGTH_SHORT).show();
@@ -212,8 +217,11 @@ public class AddMatch extends AppCompatActivity implements View.OnClickListener 
         }
         else if(v.getId()== R.id.btn_removeItem)
         {
-            if (index > 0)
+            if (index >= 0)
             {
+
+                String tempString =  tv_currentItems.getText().toString();
+                tempString.replace(items.get(index), "");
                 items.remove(index);
                 index--;
             }
@@ -224,49 +232,70 @@ public class AddMatch extends AppCompatActivity implements View.OnClickListener 
         }
         else if(v.getId() == R.id.btn_submitMatch)
         {
-            for(String s : items)
-            {
-                itemsFinalString += s + ",";
-           }
+
+            builder.setMessage("Are you sure you want to set this match? Please note that it cannot be edited later");
+            builder.setPositiveButton("Proceed", new DialogInterface.OnClickListener() {
+                public void onClick(DialogInterface dialog, int id) {
+                    for(String s : items)
+                    {
+                        itemsFinalString += s + "\n";
+                    }
 
 
-            if(singleton.getInstance().getIntValue() > 10)
-            {
-                Toast.makeText(this, "You cannot have more than 10 matches saved", Toast.LENGTH_SHORT);
-            }
+                    if(singleton.getInstance().getIntValue() > 10)
+                    {
+                        Toast.makeText(getApplicationContext(), "You cannot have more than 10 matches saved", Toast.LENGTH_SHORT);
+                    }
 
-            Map<String,Object> match = new HashMap<>();
-            Map<String,Object> numberOfMatches = new HashMap<>();
-
-
-            if(et_cs.getText().toString().equals("")|| et_damage.getText().toString().equals("")|| tv_selectChamp.getText().equals("")||itemsFinalString.equals("") )
-            {
-                Toast.makeText(this, "One or more required fields are missing, please check your data",Toast.LENGTH_SHORT).show();
-
-            }
-            else {
-                match.put("Creep Score", et_cs.getText().toString());
-                match.put("Items", itemsFinalString);
-                match.put("Damage", et_damage.getText().toString());
-                match.put("Champion",tv_selectChamp.getText().toString());
-                match.put("Result",spinner_winOrLoss.getSelectedItem().toString() );
-                match.put("Role", spinner_role.getSelectedItem().toString());
+                    Map<String,Object> match = new HashMap<>();
+                    Map<String,Object> numberOfMatches = new HashMap<>();
 
 
-                String matchNumber = "Match " + singleton.getInstance().getIntValue();
-                db.collection(userEmail).document(matchNumber).set(match);
-                numberOfMatches.put("Number of matches",singleton.getInstance().getIntValue());
-                db.collection(userEmail).document("Account Setup").update(numberOfMatches);
-                singleton.getInstance().setIntValue(singleton.getInstance().getIntValue()+1);
+                    if(et_cs.getText().toString().equals("")|| et_damage.getText().toString().equals("")|| tv_selectChamp.getText().equals("")||itemsFinalString.equals("") )
+                    {
+                        Toast.makeText(getApplicationContext(), "One or more required fields are missing, please check your data",Toast.LENGTH_SHORT).show();
+
+                    }
+                    else {
+                        match.put("Creep Score", et_cs.getText().toString());
+                        match.put("Items", itemsFinalString);
+                        match.put("Damage", et_damage.getText().toString());
+                        match.put("Champion",tv_selectChamp.getText().toString());
+                        match.put("Result",spinner_winOrLoss.getSelectedItem().toString() );
+                        match.put("Role", spinner_role.getSelectedItem().toString());
 
 
-                Toast.makeText(this, "Match has been added",Toast.LENGTH_SHORT).show();
-                createNotification();
+                        String matchNumber = "Match " + singleton.getInstance().getIntValue();
+                        db.collection(userEmail).document(matchNumber).set(match);
+                        numberOfMatches.put("Number of matches",singleton.getInstance().getIntValue());
+                        db.collection(userEmail).document("Account Setup").update(numberOfMatches);
+                        singleton.getInstance().setIntValue(singleton.getInstance().getIntValue()+1);
 
 
-                finish();
+                        Toast.makeText(getApplicationContext(), "Match has been added",Toast.LENGTH_SHORT).show();
+                        createNotification();
 
-            }
+
+                        finish();
+
+                    }
+
+
+
+
+                }
+            });
+            builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                public void onClick(DialogInterface dialog, int id) {
+                    dialog.cancel();
+                }
+            });
+            AlertDialog dialog = builder.create();
+            dialog.setTitle("Adding a match");
+            dialog.show();
+
+
+
 
 
         }
