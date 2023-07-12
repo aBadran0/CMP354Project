@@ -11,6 +11,7 @@ import android.graphics.Color;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -37,6 +38,7 @@ public class MatchView extends AppCompatActivity {
     String summonerName = "";
 
     FirebaseAuth mAuth;
+
 
 
     @SuppressLint("MissingInflatedId")
@@ -70,6 +72,10 @@ public class MatchView extends AppCompatActivity {
         if(getIntent().hasExtra("Match Number"))
         {
             position = getIntent().getIntExtra("Match Number", 0);
+        }
+        if(position >= 10)
+        {
+            position = 90 + position%10;
         }
 
 

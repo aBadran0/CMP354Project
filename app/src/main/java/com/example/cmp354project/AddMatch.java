@@ -7,8 +7,6 @@ import android.app.Notification;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
-import android.app.TaskStackBuilder;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
@@ -27,7 +25,6 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.NotificationCompat;
 
@@ -40,7 +37,7 @@ import java.util.Map;
 
 public class AddMatch extends AppCompatActivity implements View.OnClickListener {
 
-    EditText et_cs, et_ChampionName,  et_damage;
+    EditText et_cs,  et_damage;
     private Button btn_addItem, btn_removeItem, btn_submitMatch;
     Spinner spinner_role, spinner_winOrLoss;
 
@@ -54,6 +51,7 @@ public class AddMatch extends AppCompatActivity implements View.OnClickListener 
     TextView tv_selectChamp,tv_selectItem, tv_currentItems;
     FirebaseAuth mAuth;
     AlertDialog.Builder builder;
+    String matchNumber = "";
 
 
 
@@ -169,8 +167,8 @@ public class AddMatch extends AppCompatActivity implements View.OnClickListener 
            //show dialog
            champSelectDialog.show();
            // Initialize and assign variable
-           EditText et_searchChamp = champSelectDialog.findViewById(R.id.et_searchChamp);
-           ListView lv_viewChamp = champSelectDialog.findViewById(R.id.lv_ViewChamp);
+           EditText et_searchChamp = champSelectDialog.findViewById(R.id.et_searchCountry);
+           ListView lv_viewChamp = champSelectDialog.findViewById(R.id.lv_ViewCountry);
            // Initialize array adapter
            champSelectAdapter =ArrayAdapter.createFromResource(AddMatch.this, R.array.Champions, android.R.layout.simple_spinner_item);
            champSelectAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
@@ -242,70 +240,78 @@ public class AddMatch extends AppCompatActivity implements View.OnClickListener 
         }
         else if(v.getId() == R.id.btn_submitMatch)
         {
+            if(singleton.getInstance().getIntValue() >= 10)
+            {
+                Toast.makeText(getApplicationContext(), "You cannot have more than 10 matches saved", Toast.LENGTH_SHORT).show();
+            }
+            else {
+                builder.setMessage("Are you sure you want to set this match? Please note that it cannot be edited later");
+                builder.setPositiveButton("Proceed", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        for(String s : items)
+                        {
+                            itemsFinalString += s + "\n";
+                        }
 
-            builder.setMessage("Are you sure you want to set this match? Please note that it cannot be edited later");
-            builder.setPositiveButton("Proceed", new DialogInterface.OnClickListener() {
-                public void onClick(DialogInterface dialog, int id) {
-                    for(String s : items)
-                    {
-                        itemsFinalString += s + "\n";
+
+
+
+
+                        Map<String,Object> match = new HashMap<>();
+                        Map<String,Object> numberOfMatches = new HashMap<>();
+
+
+                        if(et_cs.getText().toString().equals("")|| et_damage.getText().toString().equals("")|| tv_selectChamp.getText().equals("")||itemsFinalString.equals("") )
+                        {
+                            Toast.makeText(getApplicationContext(), "One or more required fields are missing, please check your data",Toast.LENGTH_SHORT).show();
+
+                        }
+                        else {
+                            match.put("Creep Score", et_cs.getText().toString());
+                            match.put("Items", itemsFinalString);
+                            match.put("Damage", et_damage.getText().toString());
+                            match.put("Champion",tv_selectChamp.getText().toString());
+                            match.put("Result",spinner_winOrLoss.getSelectedItem().toString() );
+                            match.put("Role", spinner_role.getSelectedItem().toString());
+
+                            if(singleton.getInstance().getIntValue()>9)
+                            {
+                                matchNumber = "Match 9" + (singleton.getInstance().getIntValue()%10);
+                            }
+                            else
+                            {
+                                matchNumber = "Match " + singleton.getInstance().getIntValue();
+
+                            }
+                            db.collection(userEmail).document(matchNumber).set(match);
+                            numberOfMatches.put("Number of matches",singleton.getInstance().getIntValue());
+                            db.collection(userEmail).document("Account Setup").update(numberOfMatches);
+                            singleton.getInstance().setIntValue(singleton.getInstance().getIntValue()+1);
+
+
+                            Toast.makeText(getApplicationContext(), "Match has been added",Toast.LENGTH_SHORT).show();
+                            createNotification();
+
+
+                            finish();
+
+                        }
+
+
+
+
                     }
-
-
-                    if(singleton.getInstance().getIntValue() > 10)
-                    {
-                        Toast.makeText(getApplicationContext(), "You cannot have more than 10 matches saved", Toast.LENGTH_SHORT);
+                });
+                builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        dialog.cancel();
                     }
+                });
+                AlertDialog dialog = builder.create();
+                dialog.setTitle("Adding a match");
+                dialog.show();
 
-                    Map<String,Object> match = new HashMap<>();
-                    Map<String,Object> numberOfMatches = new HashMap<>();
-
-
-                    if(et_cs.getText().toString().equals("")|| et_damage.getText().toString().equals("")|| tv_selectChamp.getText().equals("")||itemsFinalString.equals("") )
-                    {
-                        Toast.makeText(getApplicationContext(), "One or more required fields are missing, please check your data",Toast.LENGTH_SHORT).show();
-
-                    }
-                    else {
-                        match.put("Creep Score", et_cs.getText().toString());
-                        match.put("Items", itemsFinalString);
-                        match.put("Damage", et_damage.getText().toString());
-                        match.put("Champion",tv_selectChamp.getText().toString());
-                        match.put("Result",spinner_winOrLoss.getSelectedItem().toString() );
-                        match.put("Role", spinner_role.getSelectedItem().toString());
-
-
-                        String matchNumber = "Match " + singleton.getInstance().getIntValue();
-                        db.collection(userEmail).document(matchNumber).set(match);
-                        numberOfMatches.put("Number of matches",singleton.getInstance().getIntValue());
-                        db.collection(userEmail).document("Account Setup").update(numberOfMatches);
-                        singleton.getInstance().setIntValue(singleton.getInstance().getIntValue()+1);
-
-
-                        Toast.makeText(getApplicationContext(), "Match has been added",Toast.LENGTH_SHORT).show();
-                        createNotification();
-
-
-                        finish();
-
-                    }
-
-
-
-
-                }
-            });
-            builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
-                public void onClick(DialogInterface dialog, int id) {
-                    dialog.cancel();
-                }
-            });
-            AlertDialog dialog = builder.create();
-            dialog.setTitle("Adding a match");
-            dialog.show();
-
-
-
+            }
 
 
         }
@@ -333,7 +339,7 @@ public class AddMatch extends AppCompatActivity implements View.OnClickListener 
             notificationChannel = new NotificationChannel("Channel_ID", "My Notifications", NotificationManager.IMPORTANCE_HIGH);
         }
 
-        NotificationManager manager = (NotificationManager) getSystemService(this.NOTIFICATION_SERVICE);
+        NotificationManager manager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             manager.createNotificationChannel(notificationChannel);
         }

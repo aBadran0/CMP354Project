@@ -45,8 +45,9 @@
             android:id="@+id/tv_searchChamp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Search by Champion"
             android:background="@android:drawable/editbox_background"
+            android:clickable="false"
+            android:hint="Search by Champion"
             android:paddingLeft="5dp"
             android:paddingTop="5dp"
             android:paddingBottom="5dp" />
@@ -55,7 +56,7 @@
     </LinearLayout>
 
     <ListView
-        android:id="@+id/lv_matches"
+        android:id="@+id/lv_users"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
 </LinearLayout>

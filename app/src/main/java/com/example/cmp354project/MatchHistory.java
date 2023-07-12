@@ -19,13 +19,10 @@ import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.SimpleAdapter;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -34,8 +31,6 @@ import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 
 public class MatchHistory extends AppCompatActivity implements View.OnClickListener {
 
@@ -52,6 +47,8 @@ public class MatchHistory extends AppCompatActivity implements View.OnClickListe
     FirebaseFirestore db = FirebaseFirestore.getInstance();
     private FirebaseAuth mAuth;
     String currentUser = "";
+    DocumentReference docRef;
+    int finalPosition;
 
     @SuppressLint("MissingInflatedId")
     @Override
@@ -59,7 +56,7 @@ public class MatchHistory extends AppCompatActivity implements View.OnClickListe
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_match_history);
         tv_searchChamps = findViewById(R.id.tv_searchChamp);
-        lv_Matches = findViewById(R.id.lv_matches);
+        lv_Matches = findViewById(R.id.lv_users);
         tv_MatchHistoryOfWho = findViewById(R.id.tv_MatchHistoryOfWho);
             mAuth = FirebaseAuth.getInstance();
 
@@ -91,8 +88,8 @@ public class MatchHistory extends AppCompatActivity implements View.OnClickListe
                 //show dialog
                 champDialog.show();
                 // Initialize and assign variable
-                EditText et_searchChamp = champDialog.findViewById(R.id.et_searchChamp);
-                ListView lv_viewChamp = champDialog.findViewById(R.id.lv_ViewChamp);
+                EditText et_searchChamp = champDialog.findViewById(R.id.et_searchCountry);
+                ListView lv_viewChamp = champDialog.findViewById(R.id.lv_ViewCountry);
                 // Initialize array adapter
                 champListAdapter = ArrayAdapter.createFromResource(MatchHistory.this, R.array.Champions, android.R.layout.simple_spinner_item);
                 champListAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
@@ -136,10 +133,17 @@ public class MatchHistory extends AppCompatActivity implements View.OnClickListe
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 FirebaseFirestore db = FirebaseFirestore.getInstance();
+                if(position>=9)
+                {
+                   docRef = db.collection(currentUser).document("Match 9"+ ((position+1)%10));
+                   finalPosition = position+1;
 
-                DocumentReference docRef = db.collection(currentUser).document("Match "+ (position+1));
+                }
+                else {
+                    docRef = db.collection(currentUser).document("Match " + (position + 1));
+                    finalPosition = position+1;
+                }
 
-                int finalPosition = position+1;
                 docRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
                     @Override
                     public void onComplete(@NonNull Task<DocumentSnapshot> task) {
@@ -186,7 +190,7 @@ public class MatchHistory extends AppCompatActivity implements View.OnClickListe
                                 String documentTitle = document.getId();
                                 String searchTerm = tv_searchChamps.getText().toString();
 
-                                    if(documentTitle.equals("Match " + i))
+                                    if(documentTitle.equals("Match " + i) || documentTitle.equals("Match 9" + (i%10)))
                                     {
                                         HashMap<String, String> map = new HashMap<>();
                                         String ChampName = document.getString("Champion");
@@ -205,7 +209,7 @@ public class MatchHistory extends AppCompatActivity implements View.OnClickListe
                                         }
                                         int resource = R.layout.listview_item;
                                         String[] from = {"Champion", "Result"};
-                                        int[] to = {R.id.tv_Champion, R.id.tv_result};
+                                        int[] to = {R.id.tv_userEmail, R.id.tv_result};
 
                                         // create and set the adapter
                                         SimpleAdapter adapter =
