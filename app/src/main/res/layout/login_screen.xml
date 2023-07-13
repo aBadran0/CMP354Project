@@ -63,21 +63,23 @@
 
         <TextView
             android:id="@+id/textView6"
-            android:layout_width="wrap_content"
+            android:layout_width="100dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:text="Country"
-            android:textSize="18sp" />
+            android:textSize="16sp" />
 
         <TextView
             android:id="@+id/tv_SelectCountry"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="130dp"
+            android:layout_marginLeft="120dp"
             android:layout_weight="1"
+            android:background="@android:drawable/editbox_background"
             android:clickable="true"
             android:text="Select Country"
-            android:textSize="18sp" />
+            android:textSize="16sp" />
+
     </LinearLayout>
 
     <LinearLayout

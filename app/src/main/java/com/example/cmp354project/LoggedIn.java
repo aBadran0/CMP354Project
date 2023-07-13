@@ -228,7 +228,7 @@ public class LoggedIn extends AppCompatActivity implements View.OnClickListener 
 
             if (item.getItemId() == R.id.menu_about) {
                 builder.setMessage("This application is designed to create a manual League of Legends match history. Users can input their matches through the 'Add match' " +
-                        "feature, they can view their history through the 'View match history' feature, and they can view other users matches by searching with the users email.");
+                        "feature, they can view their history through the 'View match history' feature, and they can view other users matches by searching with the users email. You can also search for users based on their country using the Select country feature.");
                 builder.setPositiveButton("Proceed", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
 
