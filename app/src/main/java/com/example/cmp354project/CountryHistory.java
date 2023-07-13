@@ -51,7 +51,7 @@ public class CountryHistory extends AppCompatActivity {
                     }
                     int resource = R.layout.country_listview_item;
                     String[] from ={"user"};
-                    int[] to = {R.id.tv_userEmail};
+                    int[] to = {R.id.tv_Champion};
 
                     SimpleAdapter adapter = new SimpleAdapter(CountryHistory.this, data, resource, from, to);
                     lv_users.setAdapter(adapter);

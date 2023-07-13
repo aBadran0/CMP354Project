@@ -73,10 +73,6 @@ public class MatchView extends AppCompatActivity {
         {
             position = getIntent().getIntExtra("Match Number", 0);
         }
-        if(position >= 10)
-        {
-            position = 90 + position%10;
-        }
 
 
 

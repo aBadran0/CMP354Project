@@ -240,11 +240,8 @@ public class AddMatch extends AppCompatActivity implements View.OnClickListener 
         }
         else if(v.getId() == R.id.btn_submitMatch)
         {
-            if(singleton.getInstance().getIntValue() >= 10)
-            {
-                Toast.makeText(getApplicationContext(), "You cannot have more than 10 matches saved", Toast.LENGTH_SHORT).show();
-            }
-            else {
+
+
                 builder.setMessage("Are you sure you want to set this match? Please note that it cannot be edited later");
                 builder.setPositiveButton("Proceed", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
@@ -274,15 +271,10 @@ public class AddMatch extends AppCompatActivity implements View.OnClickListener 
                             match.put("Result",spinner_winOrLoss.getSelectedItem().toString() );
                             match.put("Role", spinner_role.getSelectedItem().toString());
 
-                            if(singleton.getInstance().getIntValue()>9)
-                            {
-                                matchNumber = "Match 9" + (singleton.getInstance().getIntValue()%10);
-                            }
-                            else
-                            {
+
                                 matchNumber = "Match " + singleton.getInstance().getIntValue();
 
-                            }
+
                             db.collection(userEmail).document(matchNumber).set(match);
                             numberOfMatches.put("Number of matches",singleton.getInstance().getIntValue());
                             db.collection(userEmail).document("Account Setup").update(numberOfMatches);
@@ -316,7 +308,7 @@ public class AddMatch extends AppCompatActivity implements View.OnClickListener 
 
         }
 
-    }
+
 
     public void createNotification()
     {

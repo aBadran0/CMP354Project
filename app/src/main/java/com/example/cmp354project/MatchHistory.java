@@ -13,6 +13,7 @@ import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
@@ -29,10 +30,12 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
+import org.checkerframework.checker.units.qual.A;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 
-public class MatchHistory extends AppCompatActivity implements View.OnClickListener {
+public class MatchHistory extends AppCompatActivity /*implements View.OnClickListener */{
 
 
     Dialog champDialog;
@@ -49,6 +52,12 @@ public class MatchHistory extends AppCompatActivity implements View.OnClickListe
     String currentUser = "";
     DocumentReference docRef;
     int finalPosition;
+
+    ArrayList<Match> data ;
+    ArrayList<HashMap<String,String>> customdata;
+    ArrayList<Integer> MatchList;
+
+    String searchterm = "";
 
     @SuppressLint("MissingInflatedId")
     @Override
@@ -128,28 +137,22 @@ public class MatchHistory extends AppCompatActivity implements View.OnClickListe
                 });
             }
         });
-        updateDisplay();
+        updateDisplay(searchterm);
         lv_Matches.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 FirebaseFirestore db = FirebaseFirestore.getInstance();
-                if(position>=9)
-                {
-                   docRef = db.collection(currentUser).document("Match 9"+ ((position+1)%10));
-                   finalPosition = position+1;
 
-                }
-                else {
-                    docRef = db.collection(currentUser).document("Match " + (position + 1));
-                    finalPosition = position+1;
-                }
+                    finalPosition = MatchList.get(position);
+                docRef = db.collection(currentUser).document("Match " + finalPosition);
 
                 docRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
                     @Override
                     public void onComplete(@NonNull Task<DocumentSnapshot> task) {
                         if (!isFinishing() && task.isSuccessful()) {
                             DocumentSnapshot document = task.getResult();
-                            if (document != null && document.exists()) {
+
                                 String data = document.getString("Champion");
 
                                 // Pass the data to the next activity only if it is available
@@ -163,10 +166,7 @@ public class MatchHistory extends AppCompatActivity implements View.OnClickListe
                                 } else {
                                     // Handle the case when the data is null
                                 }
-                            } else {
-                                // Document doesn't exist
-                                // Handle the case when the document is not found
-                            }
+
                         } else {
 
                         }
@@ -176,66 +176,70 @@ public class MatchHistory extends AppCompatActivity implements View.OnClickListe
         });
     }
 
-    public void updateDisplay() {
-        db.collection(currentUser)
-                .get()
-                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-                    @Override
-                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                        if (task.isSuccessful()) {
-                            int i = 1;
-                            ArrayList<HashMap<String, String>> data =
-                                    new ArrayList<>();
-                            for (QueryDocumentSnapshot document : task.getResult()) {
-                                String documentTitle = document.getId();
-                                String searchTerm = tv_searchChamps.getText().toString();
+    public void updateDisplay(String term) {
+        db.collection(currentUser).get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+            @Override
 
-                                    if(documentTitle.equals("Match " + i) || documentTitle.equals("Match 9" + (i%10)))
-                                    {
-                                        HashMap<String, String> map = new HashMap<>();
-                                        String ChampName = document.getString("Champion");
-                                        String Result = document.getString("Result");
+            public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                if (task.isSuccessful()) {
+                    data = new ArrayList<>();
+                    customdata = new ArrayList<>();
+                    MatchList = new ArrayList<>();
+                    for (QueryDocumentSnapshot document : task.getResult()) {
+                        String documentTitle = document.getId();
+                        String searchTerm = tv_searchChamps.getText().toString();
 
-                                        if(searchTerm.equals(ChampName))
-                                        {
-                                            map.put("Champion", ChampName);
-                                            map.put("Result",Result );
-                                            data.add(map);
-                                        }
-                                        else {
-                                            map.put("Champion", ChampName);
-                                            map.put("Result", Result);
-                                            data.add(map);
-                                        }
-                                        int resource = R.layout.listview_item;
-                                        String[] from = {"Champion", "Result"};
-                                        int[] to = {R.id.tv_userEmail, R.id.tv_result};
+                        if (!documentTitle.equals("Account Setup")) {
+                            HashMap<String, String> map = new HashMap<>();
+                            String ChampName = document.getString("Champion");
+                            String Result = document.getString("Result");
 
-                                        // create and set the adapter
-                                        SimpleAdapter adapter =
-                                                new SimpleAdapter(MatchHistory.this, data, resource, from, to);
-                                        lv_Matches.setAdapter(adapter);
-                                        i++;
-                                    }
+                            if (!searchTerm.contentEquals("None") && !searchTerm.contentEquals("") ){
+                                if (searchTerm.contentEquals(ChampName)) {
+                                    map.put("Champion", ChampName);
+                                    map.put("Result", Result);
+                                    customdata.add(map);
+                                    MatchList.add(Integer.parseInt(documentTitle.substring(6)));
+                                    int resource = R.layout.listview_item;
+                                    String[] from = {"Champion", "Result"};
+                                    int[] to = {R.id.tv_Champion, R.id.tv_result};
+                                    SimpleAdapter adapter =
+                                            new SimpleAdapter(MatchHistory.this, customdata, resource, from, to);
+                                    lv_Matches.setAdapter(adapter);
+                                }}
+                            else {
+                                    map.put("Champion", ChampName);
+                                    map.put("Result", Result);
+                                    customdata.add(map);
+                                    MatchList.add(Integer.parseInt(documentTitle.substring(6)));
+                                int resource = R.layout.listview_item;
+                                    String[] from = {"Champion", "Result"};
+                                    int[] to = {R.id.tv_Champion, R.id.tv_result};
+                                    SimpleAdapter adapter =
+                                            new SimpleAdapter(MatchHistory.this, customdata, resource, from, to);
+                                    lv_Matches.setAdapter(adapter);
 
-                            }
-                        } else {
+                                }
 
+
+                            // create and set the adapter
                         }
+
                     }
-                });
+                } else {
 
-
-        }
-
-
-
-    @Override
-    public void onClick(View v) {
-
-
+                }
+            }
+        });
 
 
     }
 
+    public void onClick_search(View v)
+    {
+        String searchTerm = tv_searchChamps.getText().toString();
+
+        updateDisplay(searchTerm);
+
+    }
 }
