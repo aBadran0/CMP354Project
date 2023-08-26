@@ -1,4 +1,4 @@
 # CMP354Project
-This application utilises Firebase to allow the user to input their "Match History" manually, 
-and search for other users who have also used the app to input their matches.
+Created a multi-user application for my university course Mobile Application Development, where users can create an account, add matches to a database (Google firestore) that is shared with all other users of the application. 
+Users can search for another person and view each match in detail.
 
